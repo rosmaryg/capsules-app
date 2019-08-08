@@ -1,46 +1,53 @@
-<div>
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
-      <mat-card-title>{{ content.title }}</mat-card-title>
-      <mat-card-subtitle *ngIf="content.subtitle">{{ content.subtitle }}</mat-card-subtitle>
-      <mat-card-subtitle>{{ content.author }}</mat-card-subtitle>
-    </mat-card>
-  </div>
-  <br>
-  <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig" (afterChange)="afterChange($event)">
-    <div ngxSlickItem *ngFor="let slide of content.slides; let slidesIndex = index" class="slide" fxLayout="column" fxLayoutAlign="center center">
-      <div fxFlex="75" fxLayout="row" fxLayoutAlign="center center">
-        <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
-          <mat-card-title>{{ slide.title }}</mat-card-title>
-          <mat-card-subtitle>{{ slide.subtitle }}</mat-card-subtitle>
-          <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+<div fxFlexFill>
+  <div  *ngIf="content === undefined" fxLayout="column" fxLayoutAlign="center center"><mat-spinner></mat-spinner></div>
 
-            {{ slide.content }}
-
-            <div fxFlex="75">
-              <mat-card *ngIf="slide.keyTakeAways">
-                <div *ngFor="let keyTakeAway of slide.keyTakeAways">
-                  {{keyTakeAway}}
-                </div>
-              </mat-card>
-              <mat-form-field class="example-full-width">
-                <textarea matInput [(ngModel)]="slide.yourTakeAways" placeholder="What are your take aways?"></textarea>
-              </mat-form-field>
-
-              <div fxLayout="row" fxLayoutAlign="center center">
-                <mat-progress-bar mode="determinate" [value]="((slidesIndex  + 1)/content.slides.length) * 100" fxFlex="75"></mat-progress-bar>
-                &nbsp;&nbsp;{{ slidesIndex  + 1 }} / {{ content.slides.length}}
-              </div>
-            </div>
-
-          </mat-card-content>
-          <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
-            <button mat-button *ngIf="slidesIndex !== 0" (click)="slickModal.slickPrev()">Back</button>
-            <button mat-button *ngIf="slidesIndex < content.slides.length - 1" (click)="slickModal.slickNext()">Next</button>
-            <button mat-button *ngIf="slidesIndex === content.slides.length - 1" (click)="buildPDF()">Print Worksheet</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
+  <div *ngIf="content">
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
+        <mat-card-title>{{ content.title }}</mat-card-title>
+        <mat-card-subtitle *ngIf="content.subtitle">{{ content.subtitle }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ content.author }}</mat-card-subtitle>
+      </mat-card>
     </div>
-  </ngx-slick>
+    <br>
+    <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+      <div ngxSlickItem *ngFor="let slide of content.slides; let slidesIndex = index" class="slide" fxLayout="column" fxLayoutAlign="center center">
+        <div fxFlex="75" fxLayout="row" fxLayoutAlign="center center">
+          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
+            <mat-card-title>{{ slide.title }}</mat-card-title>
+            <mat-card-subtitle>{{ slide.subtitle }}</mat-card-subtitle>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+
+              {{ slide.content }}
+
+              <div fxFlex="75">
+                <mat-card *ngIf="slide.keyTakeAways">
+                  <i class="material-icons">
+                    vpn_key
+                  </i>
+                  <div *ngFor="let keyTakeAway of slide.keyTakeAways">
+                    {{keyTakeAway}}
+                  </div>
+                </mat-card>
+                <mat-form-field class="example-full-width">
+                  <textarea matInput [(ngModel)]="slide.yourTakeAways" placeholder="What do I want to share with the group?"></textarea>
+                </mat-form-field>
+
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <mat-progress-bar mode="determinate" [value]="((slidesIndex  + 1)/content.slides.length) * 100" fxFlex="75"></mat-progress-bar>
+                  &nbsp;&nbsp;{{ slidesIndex  + 1 }} / {{ content.slides.length}}
+                </div>
+              </div>
+
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
+              <button mat-button *ngIf="slidesIndex !== 0" (click)="slickModal.slickPrev()">Back</button>
+              <button mat-button *ngIf="slidesIndex < content.slides.length - 1" (click)="slickModal.slickNext()">Next</button>
+              <button mat-button *ngIf="slidesIndex === content.slides.length - 1" (click)="buildPDF()">Print Worksheet</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </ngx-slick>
+  </div>
 </div>

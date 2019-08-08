@@ -16,7 +16,7 @@ export class HomePageComponent implements OnInit {
   slideConfig = {
     infinite: true,
     autoplay: true,
-    autoplaySpeed: 700,
+    autoplaySpeed: 2000,
     slidesToShow: 1
   };
 
@@ -24,19 +24,4 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
-  addSlide() {
-    this.slides.push({img: 'http://placehold.it/350x150/777777'});
-  }
-
-  removeSlide() {
-    this.slides.length = this.slides.length - 1;
-  }
-
-  afterChange(e) {
-    console.log('afterChange');
-    console.log(e);
-  }
-
 }

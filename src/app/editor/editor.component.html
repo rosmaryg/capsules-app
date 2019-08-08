@@ -1,0 +1,116 @@
+<mat-card>
+  <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                 (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+  </ngx-file-drop>
+</mat-card>
+<mat-card>
+  <mat-vertical-stepper [linear]="false">
+    <mat-step>
+      <ng-template matStepLabel>Details</ng-template>
+      <div fxLayout="column" fxLayoutAlign="start start">
+        <mat-form-field>
+          <input matInput placeholder="Capsule Title" [(ngModel)]="content.title" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Capsule Subtitle" [(ngModel)]="content.subtitle">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Capsule Author" [(ngModel)]="content.author" required>
+        </mat-form-field>
+        <mat-form-field fxFlexFill>
+          <textarea matInput placeholder="Description" [(ngModel)]="content.description"></textarea>
+        </mat-form-field>
+        <div fxLayout="row">
+          <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                         (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+              <div style="padding: 15px;">Drop Capsule Image Here</div>
+            </ng-template>
+          </ngx-file-drop>
+          <img *ngIf="content.img !== ''" src="{{ content.img }}" style="width: 250px; padding: 15px;">
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Content</ng-template>
+      <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+        <div ngxSlickItem *ngFor="let slide of content.slides; let slidesIndex = index;" class="slide">
+            <mat-card>
+              <mat-card-title>Slide #{{ slidesIndex + 1}}</mat-card-title>
+              <mat-card-content fxLayout="column" fxLayoutAlign="center start">
+                <mat-form-field>
+                  <input matInput placeholder="Slide Title" [(ngModel)]="slide.title">
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Slide Subtitle" [(ngModel)]="slide.subtitle">
+                </mat-form-field>
+
+                <mat-form-field fxFlexFill>
+                  <textarea matInput [(ngModel)]="slide.content" placeholder="Content"></textarea>
+                </mat-form-field>
+                <div *ngFor="let keyTakeAway of slide.keyTakeAways; let takeAwaysIndex = index;">
+                  <mat-form-field>
+                    <textarea matInput [(ngModel)]="slide.keyTakeAways[takeAwaysIndex]" placeholder="Key Take Away"></textarea>
+                  </mat-form-field>
+                  <button *ngIf="takeAwaysIndex === slide.keyTakeAways.length - 1" (click)="slide.keyTakeAways.push('')" mat-icon-button aria-label="Add Key Take Away" matTooltip="Add Key Take Away">
+                    <mat-icon>playlist_add</mat-icon>
+                  </button>
+                </div>
+              </mat-card-content>
+              <mat-card-actions fxLayout="row" fxLayoutAlign="start baseline">
+                <button mat-button *ngIf="slidesIndex !== 0" (click)="slickModal.slickPrev()">Previous Slide</button>
+                <button mat-button (click)="removeSlide(slidesIndex)">Remove this Slide</button>
+                <button mat-button *ngIf="slidesIndex < content.slides.length - 1" (click)="slickModal.slickNext()">Next Slide</button>
+              </mat-card-actions>
+            </mat-card>
+        </div>
+      </ngx-slick>
+
+      <div>
+        <button mat-button (click)="addSlide(slickModal);">Add Another Slide</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Metadata</ng-template>
+      <div fxLayout="column" fxLayoutAlign="space-between start">
+        <mat-form-field>
+          <input matInput placeholder="Topic" [(ngModel)]="content.meta.topic">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Author" [(ngModel)]="content.meta.author">
+        </mat-form-field>
+        <label>Difficulty</label>
+        <mat-button-toggle-group [(ngModel)]="content.meta.difficulty">
+          <mat-button-toggle value="easy" aria-label="Text align left">
+            <mat-icon svgIcon="signal_cellular_1_bar"></mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="medium" aria-label="Text align center">
+            <mat-icon svgIcon="signal_cellular_2_bar"></mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="hard" aria-label="Text align right">
+            <mat-icon svgIcon="signal_cellular_3_bar"></mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="advanced" aria-label="Text align justify">
+            <mat-icon svgIcon="signal_cellular_4_bar"></mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+        <br>
+        <mat-checkbox [(ngModel)]="content.meta.hasVideos">Has Videos</mat-checkbox>
+        <mat-checkbox [(ngModel)]="content.meta.hasActivities">Has Activities</mat-checkbox>
+        <mat-form-field class="example-chip-list">
+          <mat-chip-list #tagChipList aria-label="Add tags">
+            <mat-chip *ngFor="let tag of content.meta.tags" [removable]="removable" (removed)="remove(tag)">
+              {{tag}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Tags"
+                   [matChipInputFor]="tagChipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="true"
+                   (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</mat-card>

@@ -1,2 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.navbar {
+  background-color: transparent;
+}
+
+.top-nav-collapse {
+  background-color: #4285F4;
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar {
+    background-color: #4285F4;
+  }
+}

@@ -1,0 +1,19 @@
+<div class="list-group">
+  <a *ngFor="let capsule of capsules" [routerLink]="['/edit/' + capsule.id]" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <div class="d-flex justify-content-between">
+        <img style="width: 150px" src="{{capsule.img}}">
+        <div fxLayout="column" style="padding: 15px;">
+          <h5 class="mb-1">{{capsule.title}}</h5>
+          <small>{{ capsule.meta.author }}</small>
+          <p class="mb-1">{{ capsule.description }}</p>
+          <div>
+            <i class="material-icons" *ngIf="capsule.meta.hasVideos" matTooltip="This capsule has videos">video_library</i>
+            <i class="material-icons" *ngIf="capsule.meta.hasActivities" matTooltip="This capsule has activities">local_activity</i>
+          </div>
+        </div>
+      </div>
+      <small>{{ prettyPrintDate(capsule.lastUpdatedTimeStamp) }}</small>
+    </div>
+  </a>
+</div>
