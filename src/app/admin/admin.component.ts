@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {GithubJsonService} from '../service/github-json/github-json.service';
+import {GithubJsonService} from '../services/github-json/github-json.service';
 
 @Component({
   selector: 'app-admin',
@@ -19,6 +19,6 @@ export class AdminComponent implements OnInit {
   }
 
   prettyPrintDate(timestamp) {
-    return new Date(timestamp);
+    return new Date(timestamp).toLocaleString();
   }
 }

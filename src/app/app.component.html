@@ -7,7 +7,7 @@
   <links>
     <ul class="navbar-nav mr-auto">
       <li *ngFor="let navBarItem of navBarItems" routerLink="{{ navBarItem.route }}" routerLinkActive="active" class="nav-item waves-light" mdbWavesEffect>
-        <a class="nav-link" [routerLink]="[ navBarItem.route ]">{{ navBarItem.name }}</a>
+        <a class="nav-link" [routerLink]="[ navBarItem.route ]" [queryParams]="navBarItem.queryParams">{{ navBarItem.name }}</a>
       </li>
     </ul>
   </links>

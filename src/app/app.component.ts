@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {MatIconRegistry} from '@angular/material';
-import {DomSanitizer} from '@angular/platform-browser';
-import {environment} from '../environments/environment';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,7 @@ import {environment} from '../environments/environment';
 })
 export class AppComponent {
   title = 'capsules-app';
+  githubOauthUrl = 'https://github.com/login/oauth/authorize?client_id=8666a532d5ea3491af21';
 
   navBarItems = [
     {
@@ -23,6 +24,11 @@ export class AppComponent {
     {
       name: 'Contact',
       route: '/contact'
+    },
+    {
+      name: 'Login',
+      route: '/oauth',
+      queryParams: { externalUrl: this.githubOauthUrl }
     }
   ];
 
@@ -30,7 +36,6 @@ export class AppComponent {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer
   ) {
-    console.log(`${environment.deployUrl}`);
     this.matIconRegistry.addSvgIcon(
       'download',
       this.domSanitizer.bypassSecurityTrustResourceUrl(`${environment.deployUrl}/assets/icons/download.svg`));

@@ -5,6 +5,7 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {GalleryComponent} from './gallery/gallery.component';
 import {EditorComponent} from './editor/editor.component';
 import {AdminComponent} from './admin/admin.component';
+import {RedirectGuard} from './guards/redirect/redirect.guard';
 
 const routes: Routes = [
   { path: '',               component: HomePageComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'edit',           component: EditorComponent },
   { path: 'edit/:id',       component: EditorComponent },
   { path: 'gallery',        component: GalleryComponent },
+  { path: 'oauth',          component: HomePageComponent,             canActivate: [RedirectGuard] },
   { path: '**',             redirectTo: '/' }
 ];
 

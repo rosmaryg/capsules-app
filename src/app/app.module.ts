@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GalleryComponent } from './gallery/gallery.component';
 import { EditorComponent } from './editor/editor.component';
 import { AdminComponent } from './admin/admin.component';
+import { RedirectGuard } from './guards/redirect/redirect.guard';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { AdminComponent } from './admin/admin.component';
     ReactiveFormsModule,
     NgxFileDropModule
   ],
-  providers: [],
+  providers: [
+    RedirectGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

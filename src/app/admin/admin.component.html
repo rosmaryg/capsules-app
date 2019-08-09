@@ -1,5 +1,5 @@
 <div class="list-group">
-  <a *ngFor="let capsule of capsules" [routerLink]="['/edit/' + capsule.id]" class="list-group-item list-group-item-action flex-column align-items-start">
+  <a *ngFor="let capsule of capsules" [routerLink]="['/edit', capsule.id]" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
       <div class="d-flex justify-content-between">
         <img style="width: 150px" src="{{capsule.img}}">
@@ -13,7 +13,9 @@
           </div>
         </div>
       </div>
-      <small>{{ prettyPrintDate(capsule.lastUpdatedTimeStamp) }}</small>
+      <div>
+        <small style="padding: 15px;">{{ prettyPrintDate(capsule.lastUpdatedTimeStamp) }}</small>
+      </div>
     </div>
   </a>
 </div>

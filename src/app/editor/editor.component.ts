@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import {ActivatedRoute, Router} from '@angular/router';
-import {GithubJsonService} from '../service/github-json/github-json.service';
+import {GithubJsonService} from '../services/github-json/github-json.service';
 import {SlickComponent} from 'ngx-slick';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
