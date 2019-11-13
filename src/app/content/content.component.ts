@@ -15,7 +15,8 @@ export class ContentComponent implements OnInit {
 
   slideConfig = {
     infinite: false,
-    slidesToShow: 1
+    slidesToShow: 1,
+    draggable: false
   };
 
   constructor(

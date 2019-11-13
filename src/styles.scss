@@ -9,6 +9,10 @@
   background-color: #4285F4;
 }
 
+.slick-slider {
+  user-select: text;
+}
+
 @media only screen and (max-width: 768px) {
   .navbar {
     background-color: #4285F4;

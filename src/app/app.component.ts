@@ -10,7 +10,7 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent {
   title = 'capsules-app';
-  githubOauthUrl = 'https://github.com/login/oauth/authorize?client_id=8666a532d5ea3491af21';
+  githubOauthUrl = 'https://github.com/login/oauth/authorize?client_id=d0c8d82ad66e26b4d64d&scope=repo,user:email';
 
   navBarItems = [
     {

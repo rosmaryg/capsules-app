@@ -16,29 +16,38 @@
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
             <mat-card-title>{{ slide.title }}</mat-card-title>
             <mat-card-subtitle>{{ slide.subtitle }}</mat-card-subtitle>
-            <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+              <div style="text-align: center;">
+                <p>{{ slide.content }}</p>
+              </div>
 
-              {{ slide.content }}
-
-              <div fxFlex="75">
-                <mat-card *ngIf="slide.keyTakeAways">
-                  <i class="material-icons">
-                    vpn_key
-                  </i>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-card *ngIf="slide.keyTakeAways" fxFlex="75">
+                  <i class="material-icons">vpn_key</i>
                   <div *ngFor="let keyTakeAway of slide.keyTakeAways">
                     {{keyTakeAway}}
                   </div>
                 </mat-card>
-                <mat-form-field class="example-full-width">
-                  <textarea matInput [(ngModel)]="slide.yourTakeAways" placeholder="What do I want to share with the group?"></textarea>
-                </mat-form-field>
-
-                <div fxLayout="row" fxLayoutAlign="center center">
-                  <mat-progress-bar mode="determinate" [value]="((slidesIndex  + 1)/content.slides.length) * 100" fxFlex="75"></mat-progress-bar>
-                  &nbsp;&nbsp;{{ slidesIndex  + 1 }} / {{ content.slides.length}}
-                </div>
               </div>
 
+              <br>
+              <br>
+
+              <div>
+                <div fxLayout="column" fxLayoutAlign="space-between stretch">
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-form-field fxFlex="75">
+                      <textarea matInput [(ngModel)]="slide.yourTakeAways" placeholder="What do I want to share with the group?"></textarea>
+                    </mat-form-field>
+                  </div>
+<!--                  <div fxLayout="row" fxLayoutAlign="center center"></div>-->
+
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-progress-bar mode="determinate" [value]="((slidesIndex  + 1)/content.slides.length) * 100" fxFlex="25"></mat-progress-bar>
+                    &nbsp;&nbsp;{{ slidesIndex  + 1 }} / {{ content.slides.length}}
+                  </div>
+                </div>
+              </div>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
               <button mat-button *ngIf="slidesIndex !== 0" (click)="slickModal.slickPrev()">Back</button>
