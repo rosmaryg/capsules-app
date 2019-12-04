@@ -5,6 +5,7 @@ import {GithubJsonService} from '../services/github-json/github-json.service';
 import {SlickComponent} from 'ngx-slick';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
+import {FileSaverService} from 'ngx-filesaver';
 
 @Component({
   selector: 'app-editor',
@@ -73,7 +74,8 @@ export class EditorComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private githubJsonService: GithubJsonService
+    private githubJsonService: GithubJsonService,
+    private fileSaverService: FileSaverService
   ) { }
 
   ngOnInit() {
@@ -175,4 +177,10 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  saveLocally() {
+
+    const blob = new Blob([JSON.stringify(this.content, null, 2)], {type : 'application/json'});
+    const filename = this.content.title + '.json';
+    this.fileSaverService.save(blob, filename);
+  }
 }

@@ -17,6 +17,9 @@ import { GalleryComponent } from './gallery/gallery.component';
 import { EditorComponent } from './editor/editor.component';
 import { AdminComponent } from './admin/admin.component';
 import { RedirectGuard } from './guards/redirect/redirect.guard';
+import {CallbackComponent} from './callback/callback.component';
+
+import { FileSaverModule } from 'ngx-filesaver';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { RedirectGuard } from './guards/redirect/redirect.guard';
     ContentComponent,
     GalleryComponent,
     EditorComponent,
-    AdminComponent
+    AdminComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,8 @@ import { RedirectGuard } from './guards/redirect/redirect.guard';
     MDBBootstrapModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    NgxFileDropModule
+    NgxFileDropModule,
+    FileSaverModule
   ],
   providers: [
     RedirectGuard
