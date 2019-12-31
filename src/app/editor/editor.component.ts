@@ -47,12 +47,17 @@ export class EditorComponent implements OnInit {
         yourTakeAways: ''
       }
     ],
+    suggestedQuestions: [
+      ''
+    ],
     meta: {
       topic: '',
       difficulty: '',
       author: '',
       hasVideos: false,
+      videoURL: '',
       hasActivities: false,
+      activityDescription: '',
       tags: [],
       rating: 0
     }

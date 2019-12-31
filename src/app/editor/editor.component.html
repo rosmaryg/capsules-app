@@ -71,6 +71,19 @@
       </div>
     </mat-step>
     <mat-step>
+      <ng-template matStepLabel>Suggested Questions</ng-template>
+      <div fxLayout="column" fxLayoutAlign="space-between start">
+        <div *ngFor="let question of content.suggestedQuestions; let questionIndex = index;">
+          <mat-form-field>
+            <textarea matInput [(ngModel)]="content.suggestedQuestions[questionIndex]" placeholder="Question"></textarea>
+          </mat-form-field>
+          <button *ngIf="questionIndex === content.suggestedQuestions.length - 1" (click)="content.suggestedQuestions.push('')" mat-icon-button aria-label="Add Key Take Away" matTooltip="Add Question">
+            <mat-icon>playlist_add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
       <ng-template matStepLabel>Metadata</ng-template>
       <div fxLayout="column" fxLayoutAlign="space-between start">
         <mat-form-field>
@@ -96,7 +109,9 @@
         </mat-button-toggle-group>
         <br>
         <mat-checkbox [(ngModel)]="content.meta.hasVideos">Has Videos</mat-checkbox>
+        <textarea *ngIf="content.meta.hasVideos" matInput [(ngModel)]="content.meta.videoURL" placeholder="Video URL"></textarea>
         <mat-checkbox [(ngModel)]="content.meta.hasActivities">Has Activities</mat-checkbox>
+        <textarea *ngIf="content.meta.hasActivities" matInput [(ngModel)]="content.meta.activityDescription" placeholder="Activity Description"></textarea>
         <mat-form-field class="example-chip-list">
           <mat-chip-list #tagChipList aria-label="Add tags">
             <mat-chip *ngFor="let tag of content.meta.tags" [removable]="removable" (removed)="remove(tag)">
