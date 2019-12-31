@@ -1,14 +1,20 @@
+<div fxLayout="row" fxLayoutAlign="center center" style="height: 65px; background-color: #FF3F12;"></div>
 <div fxLayout="row" fxLayoutAlign="center center">
-  <mat-card fxFlex="70">
+  <mat-card>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-4" style="padding: 10px;" *ngFor="let capsule of capsules" [routerLink]="['/content', capsule.id]">
-          <mat-card class="view overlay" style="padding: 0; border-radius: 250px;">
-            <img src="{{ capsule.img }}" class="img-fluid " alt="">
-            <div class="mask flex-center rgba-orange-light">
-              <h3 class="white-text">{{ capsule.title }}</h3>
-            </div>
-          </mat-card>
+        <div class="col-sm-4 capsule-container" *ngFor="let capsule of capsules">
+          <div class="capsule-border" style="padding: 10px;">
+            <mat-card class="view overlay capsule" [routerLink]="['/content', capsule.id]">
+              <img src="{{ capsule.img }}" class="img-fluid " alt="">
+              <div class="mask flex-center rgba-orange-light">
+                <div fxLayout="column" fxLayoutAlign="end center">
+                  <h1 class="white-text">{{ capsule.title }}</h1>
+                  <h5 class="white-text">{{ capsule.meta.author }}</h5>
+                </div>
+              </div>
+            </mat-card>
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,22 @@
+mat-card img {
+  object-fit: cover; /*this makes the image in src fit to the size specified below*/
+  width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  height: 250px;
+}
+
+.capsule-container {
+  padding: 30px 25px;
+}
+
+.capsule {
+  padding: 0;
+  border-radius: 250px;
+  outline: none;
+  cursor: pointer;
+}
+
+.capsule-border {
+  padding: 0;
+  border-radius: 250px;
+  border: 15px solid #787777 !important;
+}
