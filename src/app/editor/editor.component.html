@@ -81,16 +81,16 @@
         </mat-form-field>
         <label>Difficulty</label>
         <mat-button-toggle-group [(ngModel)]="content.meta.difficulty">
-          <mat-button-toggle value="easy" aria-label="Text align left">
+          <mat-button-toggle value="easy" aria-label="Text align left" matTooltip="Easy">
             <mat-icon svgIcon="signal_cellular_1_bar"></mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle value="medium" aria-label="Text align center">
+          <mat-button-toggle value="medium" aria-label="Text align center" matTooltip="Medium">
             <mat-icon svgIcon="signal_cellular_2_bar"></mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle value="hard" aria-label="Text align right">
+          <mat-button-toggle value="hard" aria-label="Text align right" matTooltip="Hard">
             <mat-icon svgIcon="signal_cellular_3_bar"></mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle value="advanced" aria-label="Text align justify">
+          <mat-button-toggle value="advanced" aria-label="Text align justify" matTooltip="Advanced">
             <mat-icon svgIcon="signal_cellular_4_bar"></mat-icon>
           </mat-button-toggle>
         </mat-button-toggle-group>
