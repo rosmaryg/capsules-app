@@ -92,6 +92,9 @@
         <mat-form-field>
           <input matInput placeholder="Author" [(ngModel)]="content.meta.author">
         </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Image URL" [(ngModel)]="content.meta.imageURL">
+        </mat-form-field>
         <label>Difficulty</label>
         <mat-button-toggle-group [(ngModel)]="content.meta.difficulty">
           <mat-button-toggle value="easy" aria-label="Text align left" matTooltip="Easy">

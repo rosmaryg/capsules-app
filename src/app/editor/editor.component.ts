@@ -55,6 +55,7 @@ export class EditorComponent implements OnInit {
       difficulty: '',
       author: '',
       hasVideos: false,
+      imageURL: '',
       videoURL: '',
       hasActivities: false,
       activityDescription: '',
@@ -91,6 +92,11 @@ export class EditorComponent implements OnInit {
         this.githubJsonService.getContent(contentId)
           .subscribe((data: any) => {
             this.content = data;
+            if (!this.content.suggestedQuestions) {
+              this.content.suggestedQuestions= [
+                ''
+              ];
+            }
           });
       }
     });
@@ -122,7 +128,11 @@ export class EditorComponent implements OnInit {
             if (fileType === '.json') {
               const fileString = reader.result as string;
               this.content = JSON.parse(fileString);
-              console.log(this.content);
+              if (!this.content.suggestedQuestions) {
+                this.content.suggestedQuestions = [
+                  ''
+                ];
+              }
             } else if (fileType === '.png' || fileType === '.jpg' || fileType === '.jpeg') {
               this.content.img = reader.result as string;
             }
