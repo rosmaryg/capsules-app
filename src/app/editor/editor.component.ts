@@ -92,14 +92,26 @@ export class EditorComponent implements OnInit {
         this.githubJsonService.getContent(contentId)
           .subscribe((data: any) => {
             this.content = data;
-            if (!this.content.suggestedQuestions) {
-              this.content.suggestedQuestions= [
-                ''
-              ];
-            }
+            this.addQuestionsAndTakeAways();
           });
       }
     });
+  }
+
+  public addQuestionsAndTakeAways() {
+    if (!this.content.suggestedQuestions) {
+      this.content.suggestedQuestions = [
+        ''
+      ];
+    }
+
+    for (const slide of this.content.slides) {
+      if (!slide.keyTakeAways) {
+        slide.keyTakeAways = [
+          ''
+        ];
+      }
+    }
   }
 
   public dropped(files: NgxFileDropEntry[]) {
@@ -128,11 +140,7 @@ export class EditorComponent implements OnInit {
             if (fileType === '.json') {
               const fileString = reader.result as string;
               this.content = JSON.parse(fileString);
-              if (!this.content.suggestedQuestions) {
-                this.content.suggestedQuestions = [
-                  ''
-                ];
-              }
+              this.addQuestionsAndTakeAways();
             } else if (fileType === '.png' || fileType === '.jpg' || fileType === '.jpeg') {
               this.content.img = reader.result as string;
             }
@@ -192,7 +200,21 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  isEligible(value) {
+    if (value.length > 0) {
+      return value;
+    }
+  }
+
+  cleanContent() {
+    this.content.suggestedQuestions = this.content.suggestedQuestions.filter(this.isEligible);
+    for (const slide of this.content.slides) {
+      slide.keyTakeAways = slide.keyTakeAways.filter(this.isEligible);
+    }
+  }
+
   saveLocally() {
+    this.cleanContent();
 
     const blob = new Blob([JSON.stringify(this.content, null, 2)], {type : 'application/json'});
     const filename = this.content.title + '.json';
