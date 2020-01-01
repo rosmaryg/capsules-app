@@ -7,7 +7,7 @@
       <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
         <mat-card-title>{{ content.title }}</mat-card-title>
         <mat-card-subtitle *ngIf="content.subtitle">{{ content.subtitle }}</mat-card-subtitle>
-        <mat-card-subtitle>{{ content.author }}</mat-card-subtitle>
+        <h5>{{ content.author }}</h5>
       </mat-card>
     </div>
     <br>
@@ -23,8 +23,8 @@
               </div>
 
               <div fxLayout="row" fxLayoutAlign="center center">
-                <mat-card *ngIf="slide.keyTakeAways" fxFlex="75">
-                  <i class="material-icons">vpn_key</i>
+                <mat-card *ngIf="slide.keyTakeAways && slide.keyTakeAways.length > 0" fxFlex="75">
+                  <i class="material-icons" matTooltip="Key Takeaway">vpn_key</i>
                   <div *ngFor="let keyTakeAway of slide.keyTakeAways">
                     {{keyTakeAway}}
                   </div>
@@ -43,8 +43,8 @@
                   </div>
 
                   <div fxLayout="row" fxLayoutAlign="center center">
-                    <mat-progress-bar mode="determinate" [value]="((slidesIndex  + 1)/content.slides.length) * 100" fxFlex="25"></mat-progress-bar>
-                    &nbsp;&nbsp;{{ slidesIndex  + 1 }} / {{ content.slides.length}}
+                    <mat-progress-bar mode="determinate" [value]="((slidesIndex  + 1)/(content.slides.length + 1)) * 100" fxFlex="25"></mat-progress-bar>
+                    &nbsp;&nbsp;{{ slidesIndex  + 1 }} / {{ content.slides.length + 1}}
                   </div>
                 </div>
               </div>
@@ -61,30 +61,86 @@
       <div ngxSlickItem class="slide" fxLayout="column" fxLayoutAlign="center center">
         <div fxFlex="75" fxLayout="row" fxLayoutAlign="center center">
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
-            <mat-card-title>Capsules Worksheet Preview</mat-card-title>
+            <mat-card-title>Personal Reflection</mat-card-title>
+            <mat-card-subtitle>
+              One of the most important pieces that can help everyone connect with the topic more personally and become more open is your witness and perspective! Please write a few lines here of what draws you to this topic or anything that touched you from this sharing.
+            </mat-card-subtitle>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch" style="width: 100%;">
+              <div fxLayout="column" fxLayoutAlign="space-between stretch">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <mat-form-field fxFlex="75">
+                    <textarea [(ngModel)]="personalReflection" matInput placeholder="Type your personal reflection here..."></textarea>
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <mat-progress-bar mode="determinate" [value]="100" fxFlex="25"></mat-progress-bar>
+                  &nbsp;&nbsp;{{ content.slides.length + 1 }} / {{ content.slides.length + 1 }}
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
+              <button mat-button (click)="slickModal.slickPrev()">Back</button>
+              <button mat-button (click)="slickModal.slickNext()">Next</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+
+      <div ngxSlickItem class="slide" fxLayout="column" fxLayoutAlign="center center">
+        <div fxFlex="75" fxLayout="row" fxLayoutAlign="center center">
+          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
+            <mat-card-title>Capsules Takeaway Worksheet Preview</mat-card-title>
             <mat-card-subtitle>Press the back button at the bottom to go back and make any changes (do not use your browser's back button).</mat-card-subtitle>
             <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
 
-              <mat-selection-list [(ngModel)]="selectedQuestions">
+              <mat-selection-list [(ngModel)]="selectedQuestions" style="outline: none;">
                 <h3 mat-subheader>Which discussion questions would you like to ask your group?</h3>
                 <mat-list-option *ngFor="let question of content.suggestedQuestions" [value]="question">
                   {{question}}
                 </mat-list-option>
               </mat-selection-list>
 
-              <mat-selection-list [(ngModel)]="selectedKeyTakeaways">
-                <h3 mat-subheader>Select your key takeaways</h3>
+              <div style="padding: 25px 0px;"><mat-divider></mat-divider></div>
+
+              <mat-selection-list [(ngModel)]="selectedKeyTakeaways" style="outline: none;">
+                <h3 mat-subheader>Select the key takeaways you want included on your takeaway worksheet</h3>
                 <mat-list-option *ngFor="let keyTakeaway of keyTakeaways" [value]="keyTakeaway">
                   {{keyTakeaway}}
                 </mat-list-option>
               </mat-selection-list>
 
-              <mat-list *ngIf="myTakeaways.length > 0">
+              <div style="padding: 25px 0px;" *ngIf="myTakeaways.length > 0"><mat-divider></mat-divider></div>
+
+              <mat-list *ngIf="myTakeaways.length > 0" style="outline: none;">
                 <h3 mat-subheader>Review your notes</h3>
                 <mat-list-item *ngFor="let myTakeaway of myTakeaways">
                   {{myTakeaway}}
                 </mat-list-item>
               </mat-list>
+
+              <div style="padding: 25px 0px;" *ngIf="personalReflection !== ''"><mat-divider></mat-divider></div>
+
+              <mat-selection-list *ngIf="personalReflection !== ''" style="outline: none;">
+                <h3 mat-subheader>Review your personal reflection:</h3>
+                <p style="padding: 10px 25px">{{personalReflection}}</p>
+              </mat-selection-list>
+
+              <div style="padding: 25px 0px;" *ngIf="content.meta.hasVideos"><mat-divider></mat-divider></div>
+
+              <mat-selection-list [(ngModel)]="selectedVideos" *ngIf="content.meta.hasVideos" style="outline: none;">
+                <h3 mat-subheader>Select the videos that you want to share with your group (click link to preview the video in a new tab)</h3>
+                <mat-list-option *ngFor="let videoURL of getVideos()">
+                  <a [href]="sanitize(videoURL)" target="_blank">{{videoURL}}</a>
+                </mat-list-option>
+              </mat-selection-list>
+
+              <div style="padding: 25px 0px;" *ngIf="content.meta.hasActivities"><mat-divider></mat-divider></div>
+
+              <mat-selection-list *ngIf="content.meta.hasActivities" style="outline: none;">
+                <h3 mat-subheader>An activity to share (will be included in the takeaway worksheet)!</h3>
+                <p style="padding: 10px 25px">{{content.meta.activityDescription}}</p>
+              </mat-selection-list>
 
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">

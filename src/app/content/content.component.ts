@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as jsPDF from 'jspdf';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {GithubJsonService} from '../services/github-json/github-json.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-content',
@@ -12,8 +13,10 @@ export class ContentComponent implements OnInit {
   private sub: any;
   idString = 'id';
   content: any;
+  personalReflection = '';
   selectedQuestions = [];
   selectedKeyTakeaways = [];
+  selectedVideos = [];
   keyTakeaways = [];
   myTakeaways = [];
 
@@ -26,7 +29,8 @@ export class ContentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private githubJsonService: GithubJsonService
+    private githubJsonService: GithubJsonService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -59,6 +63,22 @@ export class ContentComponent implements OnInit {
       }
     }
     console.log(this.myTakeaways);
+  }
+
+  isEligible(value) {
+    if (value !== null && value.trim().length > 0) {
+      return value;
+    }
+  }
+
+  getVideos() {
+    if (this.content.meta.hasVideos) {
+      return this.content.meta.videoURL.split(';').filter(this.isEligible);
+    }
+  }
+
+  sanitize(url: string){
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   buildPDF() {
