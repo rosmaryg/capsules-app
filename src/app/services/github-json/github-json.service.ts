@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class GithubJsonService {
-  githubBaseUrl = 'https://gitcdn.link/repo/rosmaryg/capsules-content/master/';
-  githubCommentsBaseUrl = 'https://gitcdn.link/repo/rosmaryg/capsules-content/master/comments/';
-  githubContentBaseUrl = 'https://gitcdn.link/repo/rosmaryg/capsules-content/master/content/';
+  githubBaseUrl = 'https://gitcdn.link/cdn/rosmaryg/capsules-content/master/';
+  githubCommentsBaseUrl = 'https://gitcdn.link/cdn/rosmaryg/capsules-content/master/comments/';
+  githubContentBaseUrl = 'https://gitcdn.link/cdn/rosmaryg/capsules-content/master/content/';
   jsonExt = '.json';
 
   constructor(private http: HttpClient) { }

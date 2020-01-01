@@ -3,7 +3,7 @@
   <a *ngFor="let capsule of capsules" [routerLink]="['/edit', capsule.id]" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
       <div class="d-flex justify-content-between">
-        <img style="width: 150px" src="{{ 'https://gitcdn.link/repo/rosmaryg/capsules-content/master/images/' + capsule.id + '.jpg' }}">
+        <img style="width: 150px" src="{{ 'https://gitcdn.link/cdn/rosmaryg/capsules-content/master/images/' + capsule.id + '.jpg' }}">
         <div fxLayout="column" style="padding: 15px;">
           <h5 class="mb-1">{{capsule.title}}</h5>
           <small>{{ capsule.meta.author }}</small>
