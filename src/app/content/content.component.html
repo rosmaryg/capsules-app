@@ -38,10 +38,9 @@
                 <div fxLayout="column" fxLayoutAlign="space-between stretch">
                   <div fxLayout="row" fxLayoutAlign="center center">
                     <mat-form-field fxFlex="75">
-                      <textarea matInput [(ngModel)]="slide.yourTakeAways" placeholder="What do I want to share with the group?"></textarea>
+                      <textarea [(ngModel)]="slide.yourTakeAways" matInput placeholder="You can copy and paste from the text and also add your own notes..."></textarea>
                     </mat-form-field>
                   </div>
-<!--                  <div fxLayout="row" fxLayoutAlign="center center"></div>-->
 
                   <div fxLayout="row" fxLayoutAlign="center center">
                     <mat-progress-bar mode="determinate" [value]="((slidesIndex  + 1)/content.slides.length) * 100" fxFlex="25"></mat-progress-bar>
@@ -52,8 +51,45 @@
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
               <button mat-button *ngIf="slidesIndex !== 0" (click)="slickModal.slickPrev()">Back</button>
-              <button mat-button *ngIf="slidesIndex < content.slides.length - 1" (click)="slickModal.slickNext()">Next</button>
-              <button mat-button *ngIf="slidesIndex === content.slides.length - 1" (click)="buildPDF()">Print Worksheet</button>
+              <button mat-button *ngIf="slidesIndex === content.slides.length - 1" (click)="getMyTakeaways(); slickModal.slickNext()">Next</button>
+              <button mat-button *ngIf="slidesIndex !== content.slides.length - 1" (click)="slickModal.slickNext()">Next</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+
+      <div ngxSlickItem class="slide" fxLayout="column" fxLayoutAlign="center center">
+        <div fxFlex="75" fxLayout="row" fxLayoutAlign="center center">
+          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
+            <mat-card-title>Capsules Worksheet Preview</mat-card-title>
+            <mat-card-subtitle>Press the back button at the bottom to go back and make any changes (do not use your browser's back button).</mat-card-subtitle>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+
+              <mat-selection-list [(ngModel)]="selectedQuestions">
+                <h3 mat-subheader>Which discussion questions would you like to ask your group?</h3>
+                <mat-list-option *ngFor="let question of content.suggestedQuestions" [value]="question">
+                  {{question}}
+                </mat-list-option>
+              </mat-selection-list>
+
+              <mat-selection-list [(ngModel)]="selectedKeyTakeaways">
+                <h3 mat-subheader>Select your key takeaways</h3>
+                <mat-list-option *ngFor="let keyTakeaway of keyTakeaways" [value]="keyTakeaway">
+                  {{keyTakeaway}}
+                </mat-list-option>
+              </mat-selection-list>
+
+              <mat-list *ngIf="myTakeaways.length > 0">
+                <h3 mat-subheader>Review your notes</h3>
+                <mat-list-item *ngFor="let myTakeaway of myTakeaways">
+                  {{myTakeaway}}
+                </mat-list-item>
+              </mat-list>
+
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
+              <button mat-button (click)="slickModal.slickPrev()">Back</button>
+              <button mat-button (click)="buildPDF()">Print Worksheet</button>
             </mat-card-actions>
           </mat-card>
         </div>

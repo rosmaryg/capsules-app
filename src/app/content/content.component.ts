@@ -12,6 +12,10 @@ export class ContentComponent implements OnInit {
   private sub: any;
   idString = 'id';
   content: any;
+  selectedQuestions = [];
+  selectedKeyTakeaways = [];
+  keyTakeaways = [];
+  myTakeaways = [];
 
   slideConfig = {
     infinite: false,
@@ -32,8 +36,29 @@ export class ContentComponent implements OnInit {
       this.githubJsonService.getContent(contentId)
         .subscribe((data: any) => {
           this.content = data;
+          this.getMyTakeaways();
+          this.getKeyTakeaways();
         });
     });
+  }
+
+  getKeyTakeaways() {
+    for (const slide of this.content.slides) {
+      for (const takeaway in slide.keyTakeAways) {
+        this.keyTakeaways.push(slide.keyTakeAways[takeaway]);
+      }
+    }
+  }
+
+  getMyTakeaways() {
+    this.myTakeaways = [];
+    console.log(this.content);
+    for (const slide of this.content.slides) {
+      if (slide.yourTakeAways !== '') {
+        this.myTakeaways.push(slide.yourTakeAways);
+      }
+    }
+    console.log(this.myTakeaways);
   }
 
   buildPDF() {
