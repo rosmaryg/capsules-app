@@ -81,6 +81,14 @@ export class ContentComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
+  updateSelectedList(list, item) {
+    if (list.includes(item)){
+      list.splice(list.indexOf(item), 1);
+    } else {
+      list.push(item);
+    }
+  }
+
   buildPDF() {
     const doc = new jsPDF();
 

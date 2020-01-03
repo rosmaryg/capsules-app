@@ -94,48 +94,61 @@
             <mat-card-subtitle>Press the back button at the bottom to go back and make any changes (do not use your browser's back button).</mat-card-subtitle>
             <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
 
-              <mat-selection-list [(ngModel)]="selectedQuestions" style="outline: none;">
-                <h3 mat-subheader>Which discussion questions would you like to ask your group?</h3>
-                <mat-list-option *ngFor="let question of content.suggestedQuestions" [value]="question">
-                  {{question}}
-                </mat-list-option>
-              </mat-selection-list>
+              <h3 class="mat-subheading-1">Which discussion questions would you like to ask your group?</h3>
+              <ul class="list-group">
+                <li class="list-group-item view overlay" *ngFor="let question of content.suggestedQuestions"
+                    (click)="updateSelectedList(selectedQuestions, question)"
+                    [ngClass]="{'rgba-orange-light': selectedQuestions.includes(question)}">
+                  <div class="mask flex-center rgba-orange-light"></div>
+                  {{ question }}
+                </li>
+              </ul>
 
               <div style="padding: 25px 0px;"><mat-divider></mat-divider></div>
 
-              <mat-selection-list [(ngModel)]="selectedKeyTakeaways" style="outline: none;">
-                <h3 mat-subheader>Select the key takeaways you want included on your takeaway worksheet</h3>
-                <mat-list-option *ngFor="let keyTakeaway of keyTakeaways" [value]="keyTakeaway">
-                  {{keyTakeaway}}
-                </mat-list-option>
-              </mat-selection-list>
+              <h3 class="mat-subheading-1">Select the key takeaways you want included on your takeaway worksheet</h3>
+              <ul class="list-group">
+                <li class="list-group-item view overlay" *ngFor="let keyTakeaway of keyTakeaways"
+                    (click)="updateSelectedList(selectedKeyTakeaways, keyTakeaway)"
+                    [ngClass]="{'rgba-orange-light': selectedKeyTakeaways.includes(keyTakeaway)}">
+                  <div class="mask flex-center rgba-orange-light"></div>
+                  {{ keyTakeaway }}
+                </li>
+              </ul>
 
               <div style="padding: 25px 0px;" *ngIf="myTakeaways.length > 0"><mat-divider></mat-divider></div>
 
-              <mat-list *ngIf="myTakeaways.length > 0" style="outline: none;">
-                <h3 mat-subheader>Review your notes</h3>
-                <mat-list-item *ngFor="let myTakeaway of myTakeaways">
-                  {{myTakeaway}}
-                </mat-list-item>
-              </mat-list>
+              <h3 class="mat-subheading-1" *ngIf="myTakeaways.length > 0">Review your notes</h3>
+              <ul class="list-group" *ngIf="myTakeaways.length > 0">
+                <li class="list-group-item" *ngFor="let myTakeaway of myTakeaways">{{ myTakeaway }}</li>
+              </ul>
 
               <div style="padding: 25px 0px;" *ngIf="personalReflection !== ''"><mat-divider></mat-divider></div>
 
-              <mat-selection-list *ngIf="personalReflection !== ''" style="outline: none;">
-                <h3 mat-subheader>Review your personal reflection:</h3>
-                <p style="padding: 10px 25px">{{personalReflection}}</p>
-              </mat-selection-list>
+              <h3 class="mat-subheading-1" *ngIf="personalReflection !== ''">Review your personal reflection:</h3>
+              <ul class="list-group" *ngIf="personalReflection !== ''">
+                <li class="list-group-item">{{ personalReflection }}</li>
+              </ul>
 
               <div style="padding: 25px 0px;" *ngIf="content.meta.hasVideos"><mat-divider></mat-divider></div>
 
-              <mat-selection-list [(ngModel)]="selectedVideos" *ngIf="content.meta.hasVideos" style="outline: none;">
-                <h3 mat-subheader>Select the videos that you want to share with your group (click link to preview the video in a new tab)</h3>
-                <mat-list-option *ngFor="let videoURL of getVideos()">
+              <h3 class="mat-subheading-1" *ngIf="content.meta.hasVideos">Select the key takeaways you want included on your takeaway worksheet</h3>
+              <ul class="list-group" *ngIf="content.meta.hasVideos">
+                <li class="list-group-item view overlay" *ngFor="let videoURL of getVideos()"
+                    (click)="updateSelectedList(selectedVideos, videoURL)"
+                    [ngClass]="{'rgba-orange-light': selectedVideos.includes(videoURL)}">
                   <a [href]="sanitize(videoURL)" target="_blank">{{videoURL}}</a>
-                </mat-list-option>
-              </mat-selection-list>
+                </li>
+              </ul>
 
               <div style="padding: 25px 0px;" *ngIf="content.meta.hasActivities"><mat-divider></mat-divider></div>
+
+              <h3 class="mat-subheading-1" *ngIf="content.meta.hasActivities">An activity to share (will be included in the takeaway worksheet)!</h3>
+              <ul class="list-group" *ngIf="content.meta.hasActivities">
+                <li class="list-group-item">
+                  {{ content.meta.activityDescription }}
+                </li>
+              </ul>
 
               <mat-selection-list *ngIf="content.meta.hasActivities" style="outline: none;">
                 <h3 mat-subheader>An activity to share (will be included in the takeaway worksheet)!</h3>
