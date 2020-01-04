@@ -98,7 +98,7 @@
               <ul class="list-group">
                 <li class="list-group-item view overlay" *ngFor="let question of content.suggestedQuestions"
                     (click)="updateSelectedList(selectedQuestions, question)"
-                    [ngClass]="{'rgba-orange-light': selectedQuestions.includes(question)}">
+                    [ngClass]="{'rgba-orange-light': selectedQuestions.includes(question.trim())}">
                   <div class="mask flex-center rgba-orange-light"></div>
                   {{ question }}
                 </li>
@@ -110,7 +110,7 @@
               <ul class="list-group">
                 <li class="list-group-item view overlay" *ngFor="let keyTakeaway of keyTakeaways"
                     (click)="updateSelectedList(selectedKeyTakeaways, keyTakeaway)"
-                    [ngClass]="{'rgba-orange-light': selectedKeyTakeaways.includes(keyTakeaway)}">
+                    [ngClass]="{'rgba-orange-light': selectedKeyTakeaways.includes(keyTakeaway.trim())}">
                   <div class="mask flex-center rgba-orange-light"></div>
                   {{ keyTakeaway }}
                 </li>
@@ -136,7 +136,7 @@
               <ul class="list-group" *ngIf="content.meta.hasVideos">
                 <li class="list-group-item view overlay" *ngFor="let videoURL of getVideos()"
                     (click)="updateSelectedList(selectedVideos, videoURL)"
-                    [ngClass]="{'rgba-orange-light': selectedVideos.includes(videoURL)}">
+                    [ngClass]="{'rgba-orange-light': selectedVideos.includes(videoURL.trim())}">
                   <a [href]="sanitize(videoURL)" target="_blank">{{videoURL}}</a>
                 </li>
               </ul>
@@ -149,11 +149,6 @@
                   {{ content.meta.activityDescription }}
                 </li>
               </ul>
-
-              <mat-selection-list *ngIf="content.meta.hasActivities" style="outline: none;">
-                <h3 mat-subheader>An activity to share (will be included in the takeaway worksheet)!</h3>
-                <p style="padding: 10px 25px">{{content.meta.activityDescription}}</p>
-              </mat-selection-list>
 
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
