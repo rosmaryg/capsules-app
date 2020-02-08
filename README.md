@@ -25,3 +25,14 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+## Deploying to GH Pages
+
+To deploy to CatholicCapsules.com:
+
+```ng deploy --cname=catholiccapsules.com --repo=https://github.com/jy-america/capsules-app.git```
+
+To deploy to your fork:
+
+```ng deploy --base-href=/capsules-app/```

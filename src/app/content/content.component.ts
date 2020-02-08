@@ -21,11 +21,6 @@ export class ContentComponent implements OnInit {
   keyTakeaways = [];
   myTakeaways = [];
 
-  slideConfig = {
-    infinite: false,
-    slidesToShow: 1,
-    draggable: false
-  };
   private pdfBorder: string;
 
   constructor(

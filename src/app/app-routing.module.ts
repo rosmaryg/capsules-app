@@ -8,7 +8,7 @@ import {AdminComponent} from './admin/admin.component';
 import {RedirectGuard} from './guards/redirect/redirect.guard';
 
 const routes: Routes = [
-  { path: '',               component: HomePageComponent },
+  { path: '',               component: GalleryComponent },
   { path: 'admin',          component: AdminComponent },
   { path: 'content/:id',    component: ContentComponent },
   { path: 'edit',           component: EditorComponent },

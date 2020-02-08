@@ -11,9 +11,9 @@
       </mat-card>
     </div>
     <br>
-    <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
-      <div ngxSlickItem *ngFor="let slide of content.slides; let slidesIndex = index" class="slide" fxLayout="column" fxLayoutAlign="center center">
-        <div fxFlex="75" fxLayout="row" fxLayoutAlign="center center">
+    <mat-horizontal-stepper>
+      <mat-step *ngFor="let slide of content.slides; let slidesIndex = index">
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin: auto;">
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
             <mat-card-title>{{ slide.title }}</mat-card-title>
             <mat-card-subtitle>{{ slide.subtitle }}</mat-card-subtitle>
@@ -50,16 +50,15 @@
               </div>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
-              <button mat-button *ngIf="slidesIndex !== 0" (click)="slickModal.slickPrev()">Back</button>
-              <button mat-button *ngIf="slidesIndex === content.slides.length - 1" (click)="getMyTakeaways(); slickModal.slickNext()">Next</button>
-              <button mat-button *ngIf="slidesIndex !== content.slides.length - 1" (click)="slickModal.slickNext()">Next</button>
+              <button mat-button *ngIf="slidesIndex !== 0" matStepperPrevious>Back</button>
+              <button mat-button *ngIf="slidesIndex === content.slides.length - 1" (click)="getMyTakeaways();" matStepperNext>Next</button>
+              <button mat-button *ngIf="slidesIndex !== content.slides.length - 1" matStepperNext>Next</button>
             </mat-card-actions>
           </mat-card>
         </div>
-      </div>
-
-      <div ngxSlickItem class="slide" fxLayout="column" fxLayoutAlign="center center">
-        <div fxFlex="75" fxLayout="row" fxLayoutAlign="center center">
+      </mat-step>
+      <mat-step>
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin: auto;">
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
             <mat-card-title>Personal Reflection</mat-card-title>
             <mat-card-subtitle>
@@ -80,15 +79,14 @@
               </div>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
-              <button mat-button (click)="slickModal.slickPrev()">Back</button>
-              <button mat-button (click)="slickModal.slickNext()">Next</button>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
             </mat-card-actions>
           </mat-card>
         </div>
-      </div>
-
-      <div ngxSlickItem class="slide" fxLayout="column" fxLayoutAlign="center center">
-        <div fxFlex="75" fxLayout="row" fxLayoutAlign="center center">
+      </mat-step>
+      <mat-step>
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin: auto;">
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
             <mat-card-title>Capsules Takeaway Worksheet Preview</mat-card-title>
             <mat-card-subtitle>Press the back button at the bottom to go back and make any changes (do not use your browser's back button).</mat-card-subtitle>
@@ -152,12 +150,12 @@
 
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
-              <button mat-button (click)="slickModal.slickPrev()">Back</button>
+              <button mat-button matStepperPrevious>Back</button>
               <button mat-button (click)="buildPDF()">Print Worksheet</button>
             </mat-card-actions>
           </mat-card>
         </div>
-      </div>
-    </ngx-slick>
+      </mat-step>
+    </mat-horizontal-stepper>
   </div>
 </div>

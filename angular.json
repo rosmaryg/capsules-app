@@ -38,8 +38,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/chart.js/dist/Chart.js",
-              "node_modules/hammerjs/hammer.min.js"
+              "node_modules/chart.js/dist/Chart.js"
             ]
           },
           "configurations": {
@@ -113,8 +112,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/chart.js/dist/Chart.js",
-              "node_modules/hammerjs/hammer.min.js"
+              "node_modules/chart.js/dist/Chart.js"
             ]
           }
         },
@@ -142,8 +140,13 @@
               "devServerTarget": "capsules-app:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "capsules-app"
 }

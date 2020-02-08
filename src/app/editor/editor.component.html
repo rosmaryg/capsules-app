@@ -5,9 +5,11 @@
   </ngx-file-drop>
 </mat-card>
 <mat-card>
-  <mat-vertical-stepper [linear]="false">
-    <mat-step>
-      <ng-template matStepLabel>Details</ng-template>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Details</mat-panel-title>
+      </mat-expansion-panel-header>
       <div fxLayout="column" fxLayoutAlign="start start">
         <mat-form-field>
           <input matInput placeholder="Capsule Title" [(ngModel)]="content.title" required>
@@ -31,11 +33,15 @@
           <img *ngIf="content.img !== ''" src="{{ content.img }}" style="width: 250px; padding: 15px;">
         </div>
       </div>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Content</ng-template>
-      <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
-        <div ngxSlickItem *ngFor="let slide of content.slides; let slidesIndex = index;" class="slide">
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Content</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div>
+        <mat-horizontal-stepper #contentStepper>
+          <mat-step *ngFor="let slide of content.slides; let slidesIndex = index;">
             <mat-card>
               <mat-card-title>Slide #{{ slidesIndex + 1}}</mat-card-title>
               <mat-card-content fxLayout="column" fxLayoutAlign="center start">
@@ -59,20 +65,23 @@
                 </div>
               </mat-card-content>
               <mat-card-actions fxLayout="row" fxLayoutAlign="start baseline">
-                <button mat-button *ngIf="slidesIndex !== 0" (click)="slickModal.slickPrev()">Previous Slide</button>
+                <button mat-button *ngIf="slidesIndex !== 0" matStepperPrevious>Previous Slide</button>
                 <button mat-button (click)="removeSlide(slidesIndex)">Remove this Slide</button>
-                <button mat-button *ngIf="slidesIndex < content.slides.length - 1" (click)="slickModal.slickNext()">Next Slide</button>
+                <button mat-button *ngIf="slidesIndex < content.slides.length - 1" matStepperNext>Next Slide</button>
               </mat-card-actions>
             </mat-card>
-        </div>
-      </ngx-slick>
-
-      <div>
-        <button mat-button (click)="addSlide(slickModal);">Add Another Slide</button>
+          </mat-step>
+        </mat-horizontal-stepper>
       </div>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Suggested Questions</ng-template>
+      <div>
+        <button mat-button (click)="addSlide();">Add Another Slide</button>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Suggested Questions</mat-panel-title>
+      </mat-expansion-panel-header>
+
       <div fxLayout="column" fxLayoutAlign="space-between start">
         <div *ngFor="let question of content.suggestedQuestions; let questionIndex = index;">
           <mat-form-field>
@@ -83,9 +92,12 @@
           </button>
         </div>
       </div>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Metadata</ng-template>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Metadata</mat-panel-title>
+      </mat-expansion-panel-header>
+
       <div fxLayout="column" fxLayoutAlign="space-between start">
         <mat-form-field>
           <input matInput placeholder="Topic" [(ngModel)]="content.meta.topic">
@@ -132,6 +144,6 @@
 
         <button mat-raised-button color="accent" (click)="saveLocally()">Save</button>
       </div>
-    </mat-step>
-  </mat-vertical-stepper>
+    </mat-expansion-panel>
+  </mat-accordion>
 </mat-card>

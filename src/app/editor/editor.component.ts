@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GithubJsonService} from '../services/github-json/github-json.service';
-import {SlickComponent} from 'ngx-slick';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material';
+import { MatChipInputEvent } from '@angular/material/chips';
 import {FileSaverService} from 'ngx-filesaver';
+import {MatStepper} from '@angular/material/stepper';
 
 @Component({
   selector: 'app-editor',
@@ -13,6 +13,7 @@ import {FileSaverService} from 'ngx-filesaver';
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
+  @ViewChild('contentStepper') stepper: MatStepper;
   removable = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -165,11 +166,11 @@ export class EditorComponent implements OnInit {
     console.log(event);
   }
 
-  addSlide(slickModal: SlickComponent) {
+  addSlide() {
     const slide = JSON.parse(JSON.stringify(this.slideTemplate));
     this.content.slides.push(slide);
     setTimeout(() => {
-      slickModal.slickGoTo(this.content.slides.length - 1);
+      this.stepper.selectedIndex = this.content.slides.length - 1;
     }, 100);
   }
 
