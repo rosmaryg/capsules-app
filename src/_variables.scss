@@ -1,0 +1,13 @@
+// Import material theming functions
+@import '~@angular/material/theming';
+@import "src/capsule-theme-styles.scss";
+
+// Copy the palettes from your selected theme (usually theme.scss).
+$app-primary: mat-palette($mat-primary);
+$app-accent:  mat-palette($mat-accent);
+$app-warn:    mat-palette($mat-warn);
+
+// Create your Sass color vars (will be available in all the project)
+$capsules-primary: mat-color($app-primary);
+$capsules-accent: mat-color($app-accent);
+$capsules-warn: mat-color($app-warn);

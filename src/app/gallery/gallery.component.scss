@@ -1,24 +1,35 @@
+@import '~@angular/material/theming';
+@import "src/_variables.scss";
+
 mat-card img {
   object-fit: cover; /*this makes the image in src fit to the size specified below*/
   width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
-  height: 250px;
+  height: 125px;
+}
+
+.details mat-card img {
+  object-fit: cover; /*this makes the image in src fit to the size specified below*/
+  width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  height: 200px;
 }
 
 .capsule-container {
-  padding: 30px 25px;
+  padding: 15px 10px;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 .capsule {
   padding: 0;
   border-radius: 250px;
   outline: none;
-  cursor: pointer;
 }
 
 .capsule-border {
-  padding: 0;
   border-radius: 250px;
-  border: 15px solid #787777 !important;
+  border: 10px solid #DEDEDE !important;
 }
 
 .capsule-text {
@@ -26,4 +37,13 @@ mat-card img {
   padding-right: 25px;
   text-align: center;
   font-weight: bolder;
+}
+
+:host ::ng-deep .mat-chip-list-wrapper {
+  justify-content: center;
+}
+
+.accent-color {
+  font-weight: bold;
+  color: mat-color($app-primary, main) !important;
 }

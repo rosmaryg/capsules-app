@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ContentComponent } from './content/content.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GalleryComponent } from './gallery/gallery.component';
+import {CapsuleDetailsDialogComponent, GalleryComponent} from './gallery/gallery.component';
 import { EditorComponent } from './editor/editor.component';
 import { AdminComponent } from './admin/admin.component';
 import { RedirectGuard } from './guards/redirect/redirect.guard';
@@ -28,7 +28,8 @@ import { FileSaverModule } from 'ngx-filesaver';
     GalleryComponent,
     EditorComponent,
     AdminComponent,
-    CallbackComponent
+    CallbackComponent,
+    CapsuleDetailsDialogComponent
   ],
   imports: [
     BrowserModule,

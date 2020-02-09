@@ -14,7 +14,23 @@ export class AppComponent {
 
   navBarItems = [
     {
-      name: 'Gallery',
+      name: 'Home',
+      route: '/gallery'
+    },
+    {
+      name: 'About Us',
+      route: '/gallery'
+    },
+    {
+      name: 'Getting Started',
+      route: '/gallery'
+    },
+    {
+      name: 'FAQs',
+      route: '/gallery'
+    },
+    {
+      name: 'Contact',
       route: '/gallery'
     }
     // {

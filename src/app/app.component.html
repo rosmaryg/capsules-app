@@ -1,16 +1,41 @@
-<mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar intro-fixed-nav" [containerInside]="false">
-  <mdb-navbar-brand>
-    <a class="logo navbar-brand" [routerLink]="['/']" href="#">
-      <strong>Capsules</strong>
-    </a>
-  </mdb-navbar-brand>
-  <links>
-    <ul class="navbar-nav mr-auto">
-      <li *ngFor="let navBarItem of navBarItems" routerLink="{{ navBarItem.route }}" routerLinkActive="active" class="nav-item waves-light" mdbWavesEffect>
-        <a class="nav-link" [routerLink]="[ navBarItem.route ]" [queryParams]="navBarItem.queryParams">{{ navBarItem.name }}</a>
-      </li>
-    </ul>
-  </links>
+<div fxLayout="row" fxLayoutAlign="center center" style="height: 10px; background-color: #FF7D12;"></div>
+<mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-light scrolling-navbar intro-fixed-nav" [containerInside]="false">
+  <div fxFlex="100">
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <mdb-navbar-brand>
+        <a class="logo navbar-brand" [routerLink]="['/']" href="#">
+          <img src="../assets/images/capsules_logo.png" style="width: 300px; padding: 10px 50px;">
+        </a>
+      </mdb-navbar-brand>
+
+      <div fxFlex="100" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon>search</mat-icon>
+        <p style="margin: 0;">Search</p>
+      </div>
+
+      <links>
+        <ul class="navbar-nav mr-auto">
+          <li *ngFor="let navBarItem of navBarItems" routerLink="{{ navBarItem.route }}" routerLinkActive="active" class="nav-item waves-light" mdbWavesEffect>
+            <a class="nav-link" [routerLink]="[ navBarItem.route ]" [queryParams]="navBarItem.queryParams">{{ navBarItem.name.toLocaleUpperCase() }}</a>
+          </li>
+        </ul>
+      </links>
+    </div>
+  </div>
 </mdb-navbar>
 
+
 <router-outlet></router-outlet>
+
+<footer class="page-footer font-small black pt-4 fixed-bottom" style="padding-bottom: 20px">
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div>Jesus Youth Tech Missionary Initiative. All Rights Reserved.</div>
+    <div fxLayout="row">
+      <img src="../assets/images/jy_logo_white.png" style="height:100%; width: 50px">
+      <div fxLayout="column" fxLayoutAlign="center start" style="padding-left: 10px">
+        <p style="margin: 0;">A MISSIONARY MOVEMENT</p>
+        <p style="margin: 0;">AT THE SERVICE OF THE CHURCH</p>
+      </div>
+    </div>
+  </div>
+</footer>

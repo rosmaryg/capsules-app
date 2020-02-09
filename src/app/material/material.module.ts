@@ -15,17 +15,19 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   imports: [
     MatButtonModule, MatCheckboxModule, MatCardModule, MatInputModule, MatProgressBarModule, MatProgressSpinnerModule, MatStepperModule,
     MatDividerModule, MatIconModule, MatTooltipModule, MatChipsModule, MatAutocompleteModule, MatButtonToggleModule, MatListModule,
-    MatExpansionModule
+    MatExpansionModule, MatSelectModule, MatDialogModule
   ],
   exports: [
     MatButtonModule, MatCheckboxModule, MatCardModule, MatInputModule, MatProgressBarModule, MatProgressSpinnerModule, MatStepperModule,
     MatDividerModule, MatIconModule, MatTooltipModule, MatChipsModule, MatAutocompleteModule, MatButtonToggleModule, MatListModule,
-    MatExpansionModule
+    MatExpansionModule, MatSelectModule, MatDialogModule
   ],
 })
 export class MaterialModule { }

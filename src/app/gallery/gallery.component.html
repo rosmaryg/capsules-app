@@ -1,17 +1,40 @@
-<div fxLayout="row" fxLayoutAlign="center center" style="height: 65px; background-color: #FF7D12;"></div>
-<div fxLayout="row" fxLayoutAlign="center center">
-  <div  *ngIf="capsules === undefined" fxLayout="column" fxLayoutAlign="center center"><mat-spinner></mat-spinner></div>
-  <mat-card *ngIf="capsules">
+<div fxLayout="row" fxLayoutAlign="center center" style="height: 85px;"></div>
+<div fxLayout="column" fxLayoutAlign="center stretch" style="padding: 50px">
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <mat-select placeholder="Sort by" [(value)]="sortBy" fxFlex="10">
+      <mat-select-trigger fxLayout="row">
+        <mat-icon aria-hidden="false" *ngIf="sortBy !== undefined" style="margin-right: 16px">{{sortBy.icon}}</mat-icon>
+        <span *ngIf="sortBy !== undefined" style="margin: 0">{{sortBy.label}}</span>
+      </mat-select-trigger>
+
+      <mat-option>Default</mat-option>
+      <!--      TODO: verify sort ascending logic and implement sort-->
+      <mat-option *ngFor="let option of sortByOptions" [value]="option" (onSelectionChange)="sortAscending = option.sortAscending">
+        <mat-icon aria-hidden="false">{{option.icon}}</mat-icon>
+        <span style="margin: auto">{{option.label}}</span>
+      </mat-option>
+    </mat-select>
+    <button *ngIf="sortBy !== undefined && !sortAscending" matTooltip="Sort Ascending"
+            (click)="sortAscending = !sortAscending" mat-icon-button>
+      <mat-icon aria-hidden="false">arrow_upward</mat-icon>
+    </button>
+    <button *ngIf="sortBy !== undefined && sortAscending" matTooltip="Sort Descending"
+            (click)="sortAscending = !sortAscending" mat-icon-button>
+      <mat-icon aria-hidden="false">arrow_downward</mat-icon>
+    </button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-4 capsule-container" *ngFor="let capsule of capsules">
-          <div class="capsule-border" style="padding: 10px;">
-            <mat-card class="view overlay capsule" [routerLink]="['/content', capsule.id]">
-              <img src="{{ 'https://gitcdn.link/cdn/rosmaryg/capsules-content/master/images/' + capsule.id + '.jpg' }}" class="img-fluid " alt="">
-              <div class="mask flex-center rgba-orange-strong">
+        <div class="col-sm-3 capsule-container" *ngFor="let capsule of capsules">
+          <div class="capsule-border">
+            <mat-card class="view zoom capsule clickable" (click)="openDetails(capsule);">
+              <img src="{{ 'https://gitcdn.link/cdn/rosmaryg/capsules-content/master/images/' + capsule.id + '.jpg' }}" class="img-fluid" alt="">
+              <div class="mask flex-center" [ngClass]="{'rgba-orange-strong': capsule.hover, 'rgba-black-strong': !capsule.hover}"
+                   (mouseenter)="capsule.hover = true;" (mouseleave)="capsule.hover = false;">
                 <div fxLayout="column" fxLayoutAlign="end center">
-                  <h3 class="white-text capsule-text">{{ capsule.title }}</h3>
-                  <h6 class="white-text capsule-text">{{ capsule.meta.author }}</h6>
+                  <h4 class="white-text capsule-text">{{ capsule.title }}</h4>
+                  <i class="white-text capsule-text">{{ capsule.meta.author }}</i>
                 </div>
               </div>
             </mat-card>
@@ -19,5 +42,5 @@
         </div>
       </div>
     </div>
-  </mat-card>
+  </div>
 </div>
