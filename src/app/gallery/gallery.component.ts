@@ -9,7 +9,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 })
 export class GalleryComponent implements OnInit {
   capsules: Array<any>;
-  sortBy: object;
+  sortBy: any;
   sortAscending = true;
   sortByOptions = [
     {
@@ -66,7 +66,7 @@ export class GalleryComponent implements OnInit {
 export class CapsuleDetailsDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<CapsuleDetailsDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: object) {
+      @Inject(MAT_DIALOG_DATA) public data: any) {
     console.log(data);
   }
 
