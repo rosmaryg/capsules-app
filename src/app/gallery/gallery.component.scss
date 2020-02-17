@@ -39,6 +39,10 @@ mat-card img {
   font-weight: bolder;
 }
 
+.capsule-subheading {
+  font-family: "Playfair Display";
+}
+
 :host ::ng-deep .mat-chip-list-wrapper {
   justify-content: center;
 }
