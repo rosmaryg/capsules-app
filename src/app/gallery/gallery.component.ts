@@ -56,6 +56,28 @@ export class GalleryComponent implements OnInit {
       data: capsule
     });
   }
+
+  sort() {
+
+    switch (this.sortBy.label) {
+      case 'Popularity':
+        break;
+      case 'Difficulty':
+        this.capsules.sort((a, b) => (a.title > b.title) ? (this.sortAscending ? 1 : -1 ) : (this.sortAscending ? -1 : 1 ));
+        break;
+      case 'Recent':
+        break;
+      case 'Topic':
+        this.capsules.sort((a, b) => (a.title > b.title) ? (this.sortAscending ? 1 : -1 ) : (this.sortAscending ? -1 : 1 ));
+        break;
+      case 'Author':
+        this.capsules.sort((a, b) => (a.meta.author > b.meta.author) ? (this.sortAscending ? 1 : -1 ) : (this.sortAscending ? -1 : 1 ));
+        break;
+      default:
+        break;
+
+    }
+  }
 }
 
 @Component({

@@ -24,11 +24,17 @@ mat-card img {
 .capsule {
   padding: 0;
   border-radius: 250px;
+  overflow: hidden;
+  //noinspection CssInvalidPropertyValue
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
   outline: none;
 }
 
 .capsule-border {
   border-radius: 250px;
+  overflow: hidden;
+  //noinspection CssInvalidPropertyValue
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
   border: 10px solid #DEDEDE !important;
 }
 

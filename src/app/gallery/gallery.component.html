@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="center center" style="height: 85px;"></div>
 <div fxLayout="column" fxLayoutAlign="center stretch" style="padding: 50px">
   <div fxLayout="row" fxLayoutAlign="end center">
-    <mat-select placeholder="Sort by" [(value)]="sortBy" fxFlex="10">
+    <mat-select placeholder="Sort by" [(value)]="sortBy" fxFlex="10" (selectionChange)="sortAscending = sortBy.sortAscending; sort()">
       <mat-select-trigger fxLayout="row">
         <mat-icon aria-hidden="false" *ngIf="sortBy !== undefined" style="margin-right: 16px">{{sortBy.icon}}</mat-icon>
         <span *ngIf="sortBy !== undefined" style="margin: 0">{{sortBy.label}}</span>
@@ -9,17 +9,17 @@
 
       <mat-option>Default</mat-option>
       <!--      TODO: verify sort ascending logic and implement sort-->
-      <mat-option *ngFor="let option of sortByOptions" [value]="option" (onSelectionChange)="sortAscending = option.sortAscending">
+      <mat-option *ngFor="let option of sortByOptions" [value]="option">
         <mat-icon aria-hidden="false">{{option.icon}}</mat-icon>
         <span style="margin: auto">{{option.label}}</span>
       </mat-option>
     </mat-select>
     <button *ngIf="sortBy !== undefined && !sortAscending" matTooltip="Sort Ascending"
-            (click)="sortAscending = !sortAscending" mat-icon-button>
+            (click)="sortAscending = !sortAscending; sort()" mat-icon-button>
       <mat-icon aria-hidden="false">arrow_upward</mat-icon>
     </button>
     <button *ngIf="sortBy !== undefined && sortAscending" matTooltip="Sort Descending"
-            (click)="sortAscending = !sortAscending" mat-icon-button>
+            (click)="sortAscending = !sortAscending; sort()" mat-icon-button>
       <mat-icon aria-hidden="false">arrow_downward</mat-icon>
     </button>
   </div>
