@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {BackendService} from '../services/backend/backend.service';
+import {AuthService} from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-callback',
@@ -13,19 +13,13 @@ export class CallbackComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private backendService: BackendService
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.sub = this.route.queryParams.subscribe(params => {
       const code = params[this.codeKey];
-      console.log(code);
-
-      this.backendService.getAccessToken(code)
-        .subscribe((data: any) => {
-          console.log(data);
-        });
+      this.authService.login(code, '/');
     });
   }
-
 }

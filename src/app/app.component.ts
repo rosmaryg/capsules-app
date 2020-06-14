@@ -1,15 +1,22 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
+import {AuthService} from './services/auth/auth.service';
+import {GithubService} from './services/github/github.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'capsules-app';
+  userName = '';
+  contributor = false;
+  contentRepoPresent = true;
+  contentRepoSource = true; // verifying that the source of the content repo is jy-america
+
   githubOauthUrl = 'https://github.com/login/oauth/authorize?client_id=d0c8d82ad66e26b4d64d&scope=repo,user:email';
 
   navBarItems = [
@@ -19,19 +26,15 @@ export class AppComponent {
     },
     {
       name: 'About Us',
-      route: '/gallery'
-    },
-    {
-      name: 'Getting Started',
-      route: '/gallery'
+      route: '/about'
     },
     {
       name: 'FAQs',
-      route: '/gallery'
+      route: '/faqs'
     },
     {
       name: 'Contact',
-      route: '/gallery'
+      route: '/contact'
     }
     // {
     //   name: 'Admin',
@@ -40,36 +43,114 @@ export class AppComponent {
     // {
     //   name: 'Contact',
     //   route: '/contact'
-    // },
-    // {
-    //   name: 'Login',
-    //   route: '/oauth',
-    //   queryParams: { externalUrl: this.githubOauthUrl }
     // }
+  ];
+
+  navBarLogout = {
+    name: 'Logout',
+    route: '/'
+  };
+
+  navBarLogin = {
+    name: 'Login',
+    route: '/oauth',
+    queryParams: { externalUrl: this.githubOauthUrl }
+  };
+
+  icons = [
+    'activity',
+    'attachments',
+    'close',
+    'down_arrow',
+    'easy',
+    'grid_active',
+    'grid_inactive',
+    'hard',
+    'lens',
+    'list_active',
+    'list_inactive',
+    'logo',
+    'medium',
+    'most_popular',
+    'notes',
+    'popular',
+    'recent',
+    'slides',
+    'sort_arrow',
+    'tick',
+    'topic',
+    'videos',
+    'untitled',
+
+    'signal_cellular_1_bar',
+    'signal_cellular_2_bar',
+    'signal_cellular_3_bar',
+    'signal_cellular_4_bar'
   ];
 
   constructor(
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private authService: AuthService,
+    private githubService: GithubService
   ) {
+
+    for (const icon of this.icons) {
+      this.addIconToRegistry(icon);
+    }
+  }
+
+  ngOnInit() {
+    if (this.isLoggedIn()) {
+      this.githubService.getName().subscribe((data: any) => {
+        this.userName = data.login;
+        this.githubService.getUserRepos(this.userName).subscribe((repo: any) => {
+          if (repo.fork && repo.parent.full_name === 'jy-america/capsules-content') {
+            this.contributor = true;
+          } else {
+            this.contentRepoSource = false;
+          }
+        }, error => {
+          if (error.status === 404) {
+            this.contentRepoPresent = false;
+          }
+        });
+      });
+    }
+  }
+
+  addIconToRegistry(icon) {
     this.matIconRegistry.addSvgIcon(
-      'download',
-      this.domSanitizer.bypassSecurityTrustResourceUrl(`${environment.deployUrl}/assets/icons/download.svg`));
-    this.matIconRegistry.addSvgIcon(
-      'signal_cellular_1_bar',
-      this.domSanitizer.bypassSecurityTrustResourceUrl(`${environment.deployUrl}/assets/icons/signal_cellular_1_bar.svg`)
+      icon,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(`${environment.deployUrl}/assets/icons/${icon}.svg`)
     );
-    this.matIconRegistry.addSvgIcon(
-      'signal_cellular_2_bar',
-      this.domSanitizer.bypassSecurityTrustResourceUrl(`${environment.deployUrl}/assets/icons/signal_cellular_2_bar.svg`)
-    );
-    this.matIconRegistry.addSvgIcon(
-      'signal_cellular_3_bar',
-      this.domSanitizer.bypassSecurityTrustResourceUrl(`${environment.deployUrl}/assets/icons/signal_cellular_3_bar.svg`)
-    );
-    this.matIconRegistry.addSvgIcon(
-      'signal_cellular_4_bar',
-      this.domSanitizer.bypassSecurityTrustResourceUrl(`${environment.deployUrl}/assets/icons/signal_cellular_4_bar.svg`)
-    );
+  }
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  becomeAContriutor() {
+    if (this.contentRepoPresent && !this.contentRepoSource) {
+      // there is a content repo but it has an incorrect source
+      // TODO: show user a dialog to rename or delete the existing content repo
+    } else if (!this.contentRepoPresent) {
+      // there is no content repo, fork from origin
+      this.githubService.forkContentRepo().subscribe((data: any) => {
+        console.log(data);
+      });
+    }
+  }
+
+  renameContentRepo() {
+
+  }
+
+  deleteContentRepo() {
+
   }
 }

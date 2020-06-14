@@ -1,43 +1,46 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {GithubJsonService} from '../services/github-json/github-json.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {Capsule} from '../shared/capsule/capsule.model';
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 })
-export class GalleryComponent implements OnInit {
-  capsules: Array<any>;
-  sortBy: any;
+export class GalleryComponent implements OnInit, OnChanges {
+  gridView = true;
+  capsules: Array<Capsule>;
+  sortBy = {
+    label: 'Popularity',
+    icon: 'popular',
+    sortAscending: true
+  };
   sortAscending = true;
   sortByOptions = [
     {
-      label: 'Popularity',
-      icon: 'thumbs_up_down',
+      label: 'Difficulty',
+      icon: 'easy',
       sortAscending: true
     },
     {
       label: 'Recent',
-      icon: 'av_timer',
+      icon: 'recent',
       sortAscending: true
     },
-    {
-      label: 'Difficulty',
-      icon: 'vertical_align_center',
-      sortAscending: true
-    },
+    this.sortBy,
     {
       label: 'Topic',
-      icon: 'book',
+      icon: 'topic',
       sortAscending: true
     },
     {
       label: 'Author',
-      icon: 'person',
+      icon: 'activity',
       sortAscending: true
     }
   ];
+
   hover: boolean;
 
   constructor(private githubJsonService: GithubJsonService,
@@ -50,6 +53,17 @@ export class GalleryComponent implements OnInit {
         });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+
+    console.log(changes);
+    // this.doSomething(changes.categoryId.currentValue);
+    // You can also use categoryId.previousValue and
+    // categoryId.firstChange for comparing old and new values
+
+    this.sort();
+  }
+
+
   openDetails(capsule) {
     const dialogRef = this.dialog.open(CapsuleDetailsDialogComponent, {
       panelClass: 'full-screen-dialog',
@@ -58,6 +72,8 @@ export class GalleryComponent implements OnInit {
   }
 
   sort() {
+
+    console.log('sorting');
 
     switch (this.sortBy.label) {
       case 'Popularity':
@@ -89,7 +105,7 @@ export class CapsuleDetailsDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<CapsuleDetailsDialogComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data);
+    // console.log(data);
   }
 
   close(): void {

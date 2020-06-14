@@ -12,13 +12,17 @@ import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ContentComponent } from './content/content.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {CapsuleDetailsDialogComponent, GalleryComponent} from './gallery/gallery.component';
+import { CapsuleDetailsDialogComponent, GalleryComponent } from './gallery/gallery.component';
 import { EditorComponent } from './editor/editor.component';
 import { AdminComponent } from './admin/admin.component';
 import { RedirectGuard } from './guards/redirect/redirect.guard';
-import {CallbackComponent} from './callback/callback.component';
+import { CallbackComponent } from './callback/callback.component';
 
 import { FileSaverModule } from 'ngx-filesaver';
+import { SorterComponent } from './sorter/sorter.component';
+import { ContentTextComponent } from './content-text/content-text.component';
+import { TextSelectDirective } from './text-select/text-select.directive';
+import { MdePopoverModule } from '@material-extended/mde';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,10 @@ import { FileSaverModule } from 'ngx-filesaver';
     EditorComponent,
     AdminComponent,
     CallbackComponent,
-    CapsuleDetailsDialogComponent
+    CapsuleDetailsDialogComponent,
+    SorterComponent,
+    ContentTextComponent,
+    TextSelectDirective
   ],
   imports: [
     BrowserModule,
@@ -42,7 +49,8 @@ import { FileSaverModule } from 'ngx-filesaver';
     FormsModule,
     ReactiveFormsModule,
     NgxFileDropModule,
-    FileSaverModule
+    FileSaverModule,
+    MdePopoverModule
   ],
   providers: [
     RedirectGuard

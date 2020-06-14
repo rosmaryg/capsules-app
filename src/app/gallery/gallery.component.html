@@ -1,27 +1,25 @@
 <div fxLayout="row" fxLayoutAlign="center center" style="height: 85px;"></div>
-<div fxLayout="column" fxLayoutAlign="center stretch" style="padding: 50px">
-  <div fxLayout="row" fxLayoutAlign="end center">
-    <mat-select placeholder="Sort by" [(value)]="sortBy" fxFlex="10" (selectionChange)="sortAscending = sortBy.sortAscending; sort()">
-      <mat-select-trigger fxLayout="row">
-        <mat-icon aria-hidden="false" *ngIf="sortBy !== undefined" style="margin-right: 16px">{{sortBy.icon}}</mat-icon>
-        <span *ngIf="sortBy !== undefined" style="margin: 0">{{sortBy.label}}</span>
-      </mat-select-trigger>
+<div fxLayout="column" fxLayoutAlign="center stretch" style="padding: 10px 100px">
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 45px 45px 20px">
+    <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="!gridView">
+      <button mat-icon-button (click)="gridView = true;" style="outline: none;">
+        <img src="./assets/icons/grid_inactive.svg" style="margin:5px; width: 32px; height: 23px;">
+      </button>
+      <button mat-icon-button style="outline: none;">
+        <img src="./assets/icons/list_active.svg" style="margin:5px; width: 32px; height: 23px;">
+      </button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="gridView">
+      <button mat-icon-button style="outline: none;">
+        <img src="./assets/icons/grid_active.svg" style="margin:5px; width: 32px; height: 23px;">
+      </button>
+      <button mat-icon-button (click)="gridView = false;" style="outline: none;">
+        <img src="./assets/icons/list_inactive.svg" style="margin:5px; width: 32px; height: 23px;">
+      </button>
+    </div>
 
-      <mat-option>Default</mat-option>
-      <!--      TODO: verify sort ascending logic and implement sort-->
-      <mat-option *ngFor="let option of sortByOptions" [value]="option">
-        <mat-icon aria-hidden="false">{{option.icon}}</mat-icon>
-        <span style="margin: auto">{{option.label}}</span>
-      </mat-option>
-    </mat-select>
-    <button *ngIf="sortBy !== undefined && !sortAscending" matTooltip="Sort Ascending"
-            (click)="sortAscending = !sortAscending; sort()" mat-icon-button>
-      <mat-icon aria-hidden="false">arrow_upward</mat-icon>
-    </button>
-    <button *ngIf="sortBy !== undefined && sortAscending" matTooltip="Sort Descending"
-            (click)="sortAscending = !sortAscending; sort()" mat-icon-button>
-      <mat-icon aria-hidden="false">arrow_downward</mat-icon>
-    </button>
+    <app-sorter [(sortBy)]="sortBy" [(sortAscending)]="sortAscending" [sortByOptions]="sortByOptions" [(capsules)]="capsules"></app-sorter>
+
   </div>
   <div fxLayout="row" fxLayoutAlign="center center">
     <div class="container-fluid">
@@ -29,7 +27,7 @@
         <div class="col-sm-3 capsule-container" *ngFor="let capsule of capsules">
           <div class="capsule-border">
             <mat-card class="view zoom capsule clickable" (click)="openDetails(capsule);">
-              <img src="{{ 'https://gitcdn.link/cdn/rosmaryg/capsules-content/master/images/' + capsule.id + '.jpg' }}" class="img-fluid" alt="">
+              <img src="{{ 'https://gitcdn.link/cdn/jy-america/capsules-content/master/images/' + capsule.id + '.jpg' }}" class="img-fluid" alt="">
               <div class="mask flex-center" [ngClass]="{'rgba-orange-strong': capsule.hover, 'rgba-black-strong': !capsule.hover}"
                    (mouseenter)="capsule.hover = true;" (mouseleave)="capsule.hover = false;">
                 <div fxLayout="column" fxLayoutAlign="end center">

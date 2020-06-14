@@ -1,161 +1,166 @@
-<div fxLayout="row" fxLayoutAlign="center center" style="height: 85px;"></div>
+<div fxLayout="row" fxLayoutAlign="center center" style="height: 150px;"></div>
 <div fxFlexFill style="padding-top: 15px">
   <div  *ngIf="content === undefined" fxLayout="column" fxLayoutAlign="center center"><mat-spinner></mat-spinner></div>
 
-  <div *ngIf="content">
+  <div *ngIf="content" fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="center center">
-      <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
-        <mat-card-title>{{ content.title }}</mat-card-title>
-        <mat-card-subtitle *ngIf="content.subtitle">{{ content.subtitle }}</mat-card-subtitle>
-        <h5>{{ content.author }}</h5>
-      </mat-card>
+      <div fxLayout="row" fxLayoutAlign="space-between start" fxFlex="50">
+        <div fxLayout="column" fxLayoutAlign="center start">
+          <div  style="background-color: #FF7D12; padding: 5px 15px;" *ngIf="pageIndex > pageCount">
+            <p class="text-white" style="margin: 0;">WORKSHEET PREVIEW</p>
+          </div>
+          <br>
+          <mat-card-title>{{ content.title }}</mat-card-title>
+          <h5 class="capsule-subheading">{{ content.author }}</h5>
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="center end">
+          <br>
+          <mat-card class="navigator-border" fxLayout="row" fxLayoutAlign="space-around center">
+            <div fxFlex="20" class="navigator-button-left" fxLayout="row" fxLayoutAlign="center center">
+              <button matTooltip="Sort Ascending" mat-icon-button (click)="goBack(capsuleContentSlides)" [disabled]="pageIndex === 1" style="outline: none; padding-right: 15px;">
+                <mat-icon svgIcon="down_arrow"></mat-icon>
+              </button>
+
+            </div>
+
+            <div fxFlex="60" class="navigator-select" fxLayout="row" fxLayoutAlign="center center">
+              <p *ngIf="pageIndex <= pageCount" style="margin: 0;">{{pageIndex}} / {{pageCount}}</p>
+              <p *ngIf="pageIndex > pageCount" style="margin: 0;">Done!</p>
+            </div>
+
+            <div fxFlex="20" class="navigator-button-right">
+              <button matTooltip="Sort Ascending" mat-icon-button (click)="goForward(capsuleContentSlides)" [disabled]="pageIndex > pageCount" style="outline: none; padding-right: 5px;">
+                <mat-icon svgIcon="down_arrow"></mat-icon>
+              </button>
+            </div>
+          </mat-card>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <button mat-icon-button (click)="createPDF()">
+              <mat-icon svgIcon="attachments" style="margin: 5px;"></mat-icon>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-icon svgIcon="most_popular" style="margin: 5px;"></mat-icon>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-icon svgIcon="most_popular" style="margin: 5px;"></mat-icon>
+          </div>
+
+        </div>
+      </div>
     </div>
     <br>
-    <mat-horizontal-stepper>
-      <mat-step *ngFor="let slide of content.slides; let slidesIndex = index">
-        <div fxLayout="row" fxLayoutAlign="center center" style="margin: auto;">
-          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
+    <div fxLayout="row" fxLayoutAlign="center center" *ngIf="pageIndex <= pageCount">
+      <strong fxFlex="50" style="padding-bottom: 10px">PAGE {{(pageIndex).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}</strong>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <mat-progress-bar mode="determinate" [value]="((pageIndex)/(pageCount)) * 100" fxFlex="50"></mat-progress-bar>
+    </div>
+
+    <br>
+    <mat-horizontal-stepper #capsuleContentSlides>
+      <mat-step *ngFor="let slide of content.slides">
+        <div fxLayout="row" fxLayoutAlign="center start" style="margin: auto;" fxFlex="51">
+
+          <div style="padding-right: 15px" fxLayout="column" fxLayoutAlign="center start" fxFlex="70">
             <mat-card-title>{{ slide.title }}</mat-card-title>
             <mat-card-subtitle>{{ slide.subtitle }}</mat-card-subtitle>
-            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
-              <div style="text-align: center;">
-                <p>{{ slide.content }}</p>
-              </div>
-
-              <div fxLayout="row" fxLayoutAlign="center center">
-                <mat-card *ngIf="slide.keyTakeAways && slide.keyTakeAways.length > 0" fxFlex="75">
-                  <i class="material-icons" matTooltip="Key Takeaway">vpn_key</i>
-                  <div *ngFor="let keyTakeAway of slide.keyTakeAways">
-                    {{keyTakeAway}}
-                  </div>
-                </mat-card>
-              </div>
-
-              <br>
-              <br>
-
-              <div>
-                <div fxLayout="column" fxLayoutAlign="space-between stretch">
-                  <div fxLayout="row" fxLayoutAlign="center center">
-                    <mat-form-field fxFlex="75">
-                      <textarea [(ngModel)]="slide.yourTakeAways" matInput placeholder="You can copy and paste from the text and also add your own notes..."></textarea>
-                    </mat-form-field>
-                  </div>
-
-                  <div fxLayout="row" fxLayoutAlign="center center">
-                    <mat-progress-bar mode="determinate" [value]="((slidesIndex  + 1)/(content.slides.length + 1)) * 100" fxFlex="25"></mat-progress-bar>
-                    &nbsp;&nbsp;{{ slidesIndex  + 1 }} / {{ content.slides.length + 1}}
-                  </div>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center start">
+              <app-content-text [text]="slide.content"></app-content-text>
+<!--              <div>-->
+<!--                <p>{{ slide.content }}</p>-->
+<!--              </div>-->
+            </mat-card-content>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="30">
+            <div *ngIf="slide.keyTakeAways && slide.keyTakeAways.length > 0" fxLayout="column"
+                 fxLayoutAlign="center center" style="padding: 10px; border: solid thin #FF7D12;">
+              <div fxFlex="75" style="padding: 15px 25px; border: solid thin #ededed; background-color: rgba(255, 125, 18, 0.1)">
+                <strong>KEY TAKEAWAYS</strong>
+                <br>
+                <div *ngFor="let keyTakeAway of slide.keyTakeAways">
+                  <br>
+                  <strong style="margin: 0; color: #FF7D12; text-align: justify-all">{{keyTakeAway.toUpperCase()}}</strong>
                 </div>
               </div>
-            </mat-card-content>
-            <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
-              <button mat-button *ngIf="slidesIndex !== 0" matStepperPrevious>Back</button>
-              <button mat-button *ngIf="slidesIndex === content.slides.length - 1" (click)="getMyTakeaways();" matStepperNext>Next</button>
-              <button mat-button *ngIf="slidesIndex !== content.slides.length - 1" matStepperNext>Next</button>
-            </mat-card-actions>
-          </mat-card>
+            </div>
+
+            <br *ngIf="slide.keyTakeAways && slide.keyTakeAways.length > 0">
+            <mat-list style="padding: 0">
+              <div class="notes-item" style="padding-top: 0;">
+                <strong>HIGHLIGHTS AND NOTES</strong>
+              </div>
+              <mat-divider></mat-divider>
+
+              <div class="notes-item" *ngIf="true">
+                <i>Select text to highlight and add notes</i>
+              </div>
+              <mat-divider *ngIf="true"></mat-divider>
+
+              <br>
+
+              <div class="notes-item">
+                <strong>ADDITIONAL NOTES</strong>
+              </div>
+              <mat-divider></mat-divider>
+
+              <div class="notes-item">
+                <mat-icon svgIcon="topic"></mat-icon>
+              </div>
+            </mat-list>
+          </div>
         </div>
       </mat-step>
       <mat-step>
-        <div fxLayout="row" fxLayoutAlign="center center" style="margin: auto;">
-          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
-            <mat-card-title>Personal Reflection</mat-card-title>
-            <mat-card-subtitle>
-              One of the most important pieces that can help everyone connect with the topic more personally and become more open is your witness and perspective! Please write a few lines here of what draws you to this topic or anything that touched you from this sharing.
-            </mat-card-subtitle>
-            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch" style="width: 100%;">
-              <div fxLayout="column" fxLayoutAlign="space-between stretch">
-                <div fxLayout="row" fxLayoutAlign="center center">
-                  <mat-form-field fxFlex="75">
-                    <textarea [(ngModel)]="personalReflection" matInput placeholder="Type your personal reflection here..."></textarea>
-                  </mat-form-field>
-                </div>
+        <div fxLayout="column" fxLayoutAlign="center start" style="margin: auto;" fxFlex="51">
+          <div *ngFor="let slide of content.slides; let slidesIndex = index;">
+            <p style="font-size: xx-large">{{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}</p>
+            <strong style="color: #FF7D12">KEY TAKEAWAYS</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <br>
 
-                <div fxLayout="row" fxLayoutAlign="center center">
-                  <mat-progress-bar mode="determinate" [value]="100" fxFlex="25"></mat-progress-bar>
-                  &nbsp;&nbsp;{{ content.slides.length + 1 }} / {{ content.slides.length + 1 }}
-                </div>
-              </div>
-            </mat-card-content>
-            <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-      </mat-step>
-      <mat-step>
-        <div fxLayout="row" fxLayoutAlign="center center" style="margin: auto;">
-          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFlex="75">
-            <mat-card-title>Capsules Takeaway Worksheet Preview</mat-card-title>
-            <mat-card-subtitle>Press the back button at the bottom to go back and make any changes (do not use your browser's back button).</mat-card-subtitle>
-            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+            <strong style="color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <br>
 
-              <h3 class="mat-subheading-1">Which discussion questions would you like to ask your group?</h3>
-              <ul class="list-group">
-                <li class="list-group-item view overlay" *ngFor="let question of content.suggestedQuestions"
-                    (click)="updateSelectedList(selectedQuestions, question)"
-                    [ngClass]="{'rgba-orange-light': selectedQuestions.includes(question.trim())}">
-                  <div class="mask flex-center rgba-orange-light"></div>
-                  {{ question }}
-                </li>
-              </ul>
+            <strong style="color: #FF7D12">ADDITIONAL NOTES</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <br>
 
-              <div style="padding: 25px 0px;"><mat-divider></mat-divider></div>
-
-              <h3 class="mat-subheading-1">Select the key takeaways you want included on your takeaway worksheet</h3>
-              <ul class="list-group">
-                <li class="list-group-item view overlay" *ngFor="let keyTakeaway of keyTakeaways"
-                    (click)="updateSelectedList(selectedKeyTakeaways, keyTakeaway)"
-                    [ngClass]="{'rgba-orange-light': selectedKeyTakeaways.includes(keyTakeaway.trim())}">
-                  <div class="mask flex-center rgba-orange-light"></div>
-                  {{ keyTakeaway }}
-                </li>
-              </ul>
-
-              <div style="padding: 25px 0px;" *ngIf="myTakeaways.length > 0"><mat-divider></mat-divider></div>
-
-              <h3 class="mat-subheading-1" *ngIf="myTakeaways.length > 0">Review your notes</h3>
-              <ul class="list-group" *ngIf="myTakeaways.length > 0">
-                <li class="list-group-item" *ngFor="let myTakeaway of myTakeaways">{{ myTakeaway }}</li>
-              </ul>
-
-              <div style="padding: 25px 0px;" *ngIf="personalReflection !== ''"><mat-divider></mat-divider></div>
-
-              <h3 class="mat-subheading-1" *ngIf="personalReflection !== ''">Review your personal reflection:</h3>
-              <ul class="list-group" *ngIf="personalReflection !== ''">
-                <li class="list-group-item">{{ personalReflection }}</li>
-              </ul>
-
-              <div style="padding: 25px 0px;" *ngIf="content.meta.hasVideos"><mat-divider></mat-divider></div>
-
-              <h3 class="mat-subheading-1" *ngIf="content.meta.hasVideos">Select the key takeaways you want included on your takeaway worksheet</h3>
-              <ul class="list-group" *ngIf="content.meta.hasVideos">
-                <li class="list-group-item view overlay" *ngFor="let videoURL of getVideos()"
-                    (click)="updateSelectedList(selectedVideos, videoURL)"
-                    [ngClass]="{'rgba-orange-light': selectedVideos.includes(videoURL.trim())}">
-                  <a [href]="sanitize(videoURL)" target="_blank">{{videoURL}}</a>
-                </li>
-              </ul>
-
-              <div style="padding: 25px 0px;" *ngIf="content.meta.hasActivities"><mat-divider></mat-divider></div>
-
-              <h3 class="mat-subheading-1" *ngIf="content.meta.hasActivities">An activity to share (will be included in the takeaway worksheet)!</h3>
-              <ul class="list-group" *ngIf="content.meta.hasActivities">
-                <li class="list-group-item">
-                  {{ content.meta.activityDescription }}
-                </li>
-              </ul>
-
-            </mat-card-content>
-            <mat-card-actions fxLayout="row" fxLayoutAlign="end baseline">
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button (click)="buildPDF()">Print Worksheet</button>
-            </mat-card-actions>
-          </mat-card>
+          </div>
         </div>
       </mat-step>
     </mat-horizontal-stepper>
+
+    <!--The following element is for the pdf document to be printed. Must not deploy without including the `hidden` attribute-->
+    <div hidden>
+      <div style="width: 6.5in;" fxLayout="column" fxLayoutAlign="start space around" id="worksheet">
+        <div fxLayout="row" fxLayoutAlign="end center">
+          <img src="./assets/images/logo.png" style="width: 200px;">
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center start">
+          <div  style="background-color: #000000; padding: 0 15px;">
+            <p class="text-white" style="margin: 0;">WORKSHEET</p>
+          </div>
+          <mat-card-title>{{ content.title }}</mat-card-title>
+          <h5 class="capsule-subheading">{{ content.author }}</h5>
+          <mat-progress-bar mode="determinate" [value]="100"></mat-progress-bar>
+          <br>
+          <div *ngFor="let slide of content.slides; let slidesIndex = index;">
+            <p style="font-size: xx-large">{{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}</p>
+            <strong style="color: #FF7D12">KEY TAKEAWAYS</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <br>
+
+            <strong style="color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <br>
+
+            <strong style="color: #FF7D12">ADDITIONAL NOTES</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import * as jsPDF from 'jspdf';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {GithubJsonService} from '../services/github-json/github-json.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
+import {MatStepper} from '@angular/material/stepper';
+
+import * as html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-content',
@@ -11,6 +13,8 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
+  pageIndex = 1;
+  pageCount = 10;
   private sub: any;
   idString = 'id';
   content: any;
@@ -38,16 +42,30 @@ export class ContentComponent implements OnInit {
       this.githubJsonService.getContent(contentId)
         .subscribe((data: any) => {
           this.content = data;
+          this.pageCount = data.slides.length;
           this.getMyTakeaways();
           this.getKeyTakeaways();
+          this.addTags();
         });
     });
   }
 
+  addTags() {
+    for (const slide of this.content.slides) {
+      if (slide.tags === undefined) {
+        slide.tags = [{
+          indices: { start: 8, end: 14 },
+          cssClass: 'capsule-orange',
+          data: { user: { id: 1 } }
+        }];
+      }
+    }
+  }
+
   getKeyTakeaways() {
     for (const slide of this.content.slides) {
-      for (const takeaway in slide.keyTakeAways) {
-        this.keyTakeaways.push(slide.keyTakeAways[takeaway]);
+      for (const keyTakeAway of slide.keyTakeAways) {
+        this.keyTakeaways.push(keyTakeAway);
       }
     }
   }
@@ -85,145 +103,26 @@ export class ContentComponent implements OnInit {
     }
   }
 
-  buildPDF() {
-    // tslint:disable-next-line:one-variable-per-declaration
-    const pageWidth = 8.5,
-      lineHeight = 1.2,
-      margin = 0.75,
-      maxLineWidth = pageWidth - margin * 2,
-      fontSize = 12,
-      ptsPerInch = 72,
-      oneLineHeight = fontSize * lineHeight / ptsPerInch;
+  createPDF() {
+    const element = document.getElementById('worksheet');
+    const opt = {
+      margin: [0.5, 1, 1, 1],
+      filename: this.content.title + '.pdf',
+      image: {type: 'jpeg', quality: 0.98},
+      html2canvas: {scale: 2},
+      jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+    };
 
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'in',
-      lineHeight
-    });
-
-    const yourTakeaways = [];
-
-    for (const slide of this.content.slides) {
-      yourTakeaways.push(slide.yourTakeAways);
-    }
-
-    const questionsText = this.selectedQuestions.join('\n');
-    const videosText = this.selectedVideos.join('\n');
-    const keyTakeawaysText = this.selectedKeyTakeaways.join('\n');
-    const yourTakeawaysText = yourTakeaways.join('\n');
-
-    const contentTitleLines = doc
-      .setFont('helvetica', 'bold')
-      .setFontSize(fontSize * 2)
-      .splitTextToSize(this.content.title, maxLineWidth);
-
-    let x = 0;
-    let y = 0;
-
-    const imageFile = this.http.get<any>('assets/images/takeaway_border.json')
-      .subscribe((data: object) => {
-        // @ts-ignore
-        this.pdfBorder = data.border;
-        doc.addImage(this.pdfBorder, 'PNG', x, y, 8.5, 1);
-        x = margin;
-        y = y + 1 + 2 * oneLineHeight;
-
-        doc.setFontStyle('bold')
-          .setFontSize(fontSize * 2)
-          .text(contentTitleLines, pageWidth / 2, y, null, null, 'center');
-
-        x = margin;
-        y += (contentTitleLines.length * fontSize * lineHeight / ptsPerInch) + (2 * oneLineHeight);
-
-        y = this.addSectionToPdf('My Notes', yourTakeaways, fontSize, maxLineWidth, oneLineHeight,
-          x, y, doc);
-
-        y = this.addSectionToPdf('My Personal Sharing', this.personalReflection, fontSize, maxLineWidth, oneLineHeight,
-          x, y, doc);
-
-        y = this.addSectionToPdf('Key Takeaways', this.selectedKeyTakeaways, fontSize, maxLineWidth, oneLineHeight,
-          x, y, doc);
-
-        y = this.addSectionToPdf('Discussion Questions', this.selectedQuestions, fontSize, maxLineWidth, oneLineHeight,
-          x, y, doc);
-
-        if (this.content.meta.hasVideos) {
-          y = this.addSectionToPdf('Video(s) to Share', this.selectedVideos, fontSize, maxLineWidth, oneLineHeight,
-             x, y, doc);
-        }
-
-        if (this.content.meta.hasActivities) {
-          y = this.addSectionToPdf('Activity', this.content.meta.activityDescription, fontSize, maxLineWidth, oneLineHeight,
-            x, y, doc);
-        }
-
-        const textHeight = contentTitleLines.length * fontSize * lineHeight / ptsPerInch;
-        // doc.setFontStyle('bold')
-        //   .text('Text Height: ' + textHeight + ' inches', margin, margin + oneLineHeight);
-
-        // doc.autoPrint();
-        doc.save(this.content.title + '- TakeAwaySheet.pdf');
-
-      });
+    html2pdf().set(opt).from(element).save();
   }
 
-  addSectionToPdf(title, body, fontSize, maxLineWidth, oneLineHeight, x, y, doc) {
-    const titleLine = doc
-      .setFont('helvetica', 'bold')
-      .setFontSize(fontSize)
-      .splitTextToSize(title, maxLineWidth);
+  goBack(stepper: MatStepper) {
+    stepper.previous();
+    this.pageIndex = stepper.selectedIndex + 1;
+  }
 
-    const bodyTextArray = [];
-    let bodyLines = [];
-    let bodyLength = 0;
-    if (Array.isArray(body)) {
-      for (const line of body) {
-        const bodyLine = doc
-          .setFont('helvetica', 'normal')
-          .setFontSize(fontSize)
-          .splitTextToSize(line, maxLineWidth);
-
-        bodyLength += bodyLine.length;
-        bodyTextArray.push(bodyLine);
-      }
-    } else {
-      bodyLines = doc
-        .setFont('helvetica', 'normal')
-        .setFontSize(fontSize)
-        .splitTextToSize(body, maxLineWidth);
-
-      bodyLength = bodyLines.length;
-    }
-
-    if (titleLine.length * oneLineHeight + bodyLength * oneLineHeight + y > 10.5) {
-      doc.addPage();
-      doc.addImage(this.pdfBorder, 'PNG', 0, 0, 8.5, 0.5);
-      y = 0.5 + 2 * oneLineHeight;
-    }
-
-    doc.setFontStyle('bold')
-      .setFontSize(fontSize)
-      .text(titleLine, x, y);
-
-    y += (titleLine.length * oneLineHeight) + (0.75 * oneLineHeight);
-
-    if (Array.isArray(body)) {
-      for (const line of bodyTextArray) {
-        doc.setFontStyle('normal')
-          .setFontSize(fontSize)
-          .text(line, x + 0.1, y);
-
-        y += (line.length * oneLineHeight) + (0.5 * oneLineHeight);
-      }
-      y += (1.5 * oneLineHeight);
-    } else {
-      doc.setFontStyle('normal')
-        .setFontSize(fontSize)
-        .text(bodyLines, x, y);
-
-      y += (bodyLines.length * oneLineHeight) + (2 * oneLineHeight);
-    }
-
-    return y;
+  goForward(stepper: MatStepper) {
+    stepper.next();
+    this.pageIndex = stepper.selectedIndex + 1;
   }
 }

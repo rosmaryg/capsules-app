@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GithubJsonService} from '../services/github-json/github-json.service';
+import {GithubService} from '../services/github/github.service';
+import {AuthService} from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,14 +10,36 @@ import {GithubJsonService} from '../services/github-json/github-json.service';
 })
 export class AdminComponent implements OnInit {
   capsules: Array<any>;
+  userName: string;
+  inProgressBranches: Array<string>;
 
-  constructor(private githubJsonService: GithubJsonService) { }
+  constructor(
+    private authService: AuthService,
+    private githubJsonService: GithubJsonService,
+    private githubService: GithubService
+  ) { }
 
   ngOnInit() {
     this.githubJsonService.getDirectory()
       .subscribe((data: Array<any>) => {
         this.capsules = data;
       });
+
+    if (this.authService.isLoggedIn()) {
+      this.githubService.getName().subscribe((data: any) => {
+        this.userName = data.login;
+        this.githubService.getContentRepoBranches(this.userName).subscribe((branches: any) => {
+          this.inProgressBranches = [];
+          branches.forEach(branch => {
+            if (branch.name !== 'master') {
+              this.inProgressBranches.push(branch.name);
+            }
+          });
+
+          console.log(this.inProgressBranches);
+        });
+      });
+    }
   }
 
   prettyPrintDate(timestamp) {

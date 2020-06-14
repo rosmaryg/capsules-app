@@ -1,37 +1,65 @@
 <mat-dialog-content style="maxHeight: 100vh">
   <div fxLayout="column" fxLayoutAlign="center center" style="padding: 100px;">
-    <div class="col-sm-4 capsule-container">
-      <div fxLayout="row"><div class="capsule-border details">
-        <mat-card class="view capsule">
-          <img src="{{ 'https://gitcdn.link/cdn/rosmaryg/capsules-content/master/images/' + data.id + '.jpg' }}" class="img-fluid" alt="">
-          <div class="mask flex-center">
+    <div class="col-sm-5 capsule-container" fxLayout="row">
+      <mat-card class="details-modal">
+        <div style="position: relative; z-index: 2; top: -100px" fxLayout="column" fxLayoutAlign="space-between center">
+          <div class="capsule-border details" style="z-index: 3; width: 85%;">
+            <mat-card class="view capsule">
+              <img src="{{ 'https://gitcdn.link/cdn/jy-america/capsules-content/master/images/' + data.id + '.jpg' }}" class="img-fluid" alt="">
+              <div class="mask flex-center">
+              </div>
+            </mat-card>
           </div>
-        </mat-card>
-      </div>
-        <button mat-icon-button color="accent" style="outline: none;" (click)="close()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-      <div fxLayout="column" fxLayoutAlign="space-between center">
-        <br>
-        <h3 class="white-text data-text">{{ data.title }}</h3>
-        <i class="white-text data-text capsule-subheading">{{ data.meta.author }}</i>
-        <br *ngIf="data.description">
-        <p class="white-text data-text" *ngIf="data.description">{{ data.description }}</p>
-        <br>
-        <i class="white-text data-text capsule-subheading">Number of slides:</i>
-        <!--   TODO: remove default slide count     -->
-        <h3 class="accent-color">10</h3>
-        <br *ngIf="data.meta.tags && data.meta.tags.length > 0">
-        <i class="white-text data-text capsule-subheading" *ngIf="data.meta.tags && data.meta.tags.length > 0">Tags:</i>
-        <div *ngIf="data.meta.tags && data.meta.tags.length > 0">
-          <mat-chip-list aria-label="capsule tags">
-            <mat-chip *ngFor="let tag of data.meta.tags">{{ tag }}</mat-chip>
-          </mat-chip-list>
+          <br>
+          <div fxLayout="column" fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-icon svgIcon="slides" style="margin: 5px;"></mat-icon>
+              <p class="data-text" style="margin: 0">07</p>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-icon svgIcon="most_popular" style="margin: 5px;"></mat-icon>
+              <p class="data-text" style="margin: 0">134</p>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-icon *ngIf="data.meta.difficulty === 'easy'" svgIcon="easy" style="margin: 5px;"></mat-icon>
+              <mat-icon *ngIf="data.meta.difficulty === 'medium'" svgIcon="medium" style="margin: 5px;"></mat-icon>
+              <mat-icon *ngIf="data.meta.difficulty === 'hard'" svgIcon="hard" style="margin: 5px;"></mat-icon>
+            </div>
+            <br>
+            <h3 class="data-text">{{ data.title }}</h3>
+            <i class="data-text capsule-subheading">{{ data.meta.author }}</i>
+            <br *ngIf="data.description">
+            <p class="data-text" *ngIf="data.description">{{ data.description }}</p>
+            <br>
+
+            <br *ngIf="data.meta.tags && data.meta.tags.length > 0">
+            <strong class="data-text" *ngIf="data.meta.tags && data.meta.tags.length > 0">TAGS:</strong>
+            <div *ngIf="data.meta.tags && data.meta.tags.length > 0" style="width: 60%">
+              <mat-chip-list aria-label="capsule tags">
+                <mat-chip *ngFor="let tag of data.meta.tags" style="border: solid thin #d1d1d1; background-color: white">{{ tag }}</mat-chip>
+              </mat-chip-list>
+            </div>
+
+            <br *ngIf="data.meta.hasActivities || data.meta.hasVideos">
+            <strong class="data-text" *ngIf="data.meta.hasActivities || data.meta.hasVideos">EXTRAS:</strong>
+            <div *ngIf="data.meta.hasActivities || data.meta.hasVideos" fxLayout="row" fxLayoutAlign="center center">
+              <mat-icon svgIcon="notes" style="margin: 5px;"></mat-icon>
+              <p class="data-text" style="margin: 0">00</p>
+              &nbsp;&nbsp;&nbsp;
+              <mat-icon svgIcon="activity" style="margin: 5px;"></mat-icon>
+              <p class="data-text" style="margin: 0">00</p>
+              &nbsp;&nbsp;&nbsp;
+              <mat-icon svgIcon="videos" style="margin: 5px;"></mat-icon>
+              <p class="data-text" style="margin: 0">00</p>
+            </div>
+            <br>
+            <button mat-raised-button style="outline: none; border-radius: 100px" color="primary" [routerLink]="['/content', data.id]" (click)="close()">
+              <p class="white-text" style="margin: 0; padding: 0 25px">START CAPSULE</p>
+            </button>
+          </div>
         </div>
-        <br>
-        <button mat-raised-button style="outline: none;" color="primary" [routerLink]="['/content', data.id]" (click)="close()">Start</button>
-      </div>
+      </mat-card>
+      <button mat-icon-button color="accent" style="outline: none;" (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
   </div>
 </mat-dialog-content>

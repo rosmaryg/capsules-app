@@ -17,17 +17,18 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   imports: [
     MatButtonModule, MatCheckboxModule, MatCardModule, MatInputModule, MatProgressBarModule, MatProgressSpinnerModule, MatStepperModule,
     MatDividerModule, MatIconModule, MatTooltipModule, MatChipsModule, MatAutocompleteModule, MatButtonToggleModule, MatListModule,
-    MatExpansionModule, MatSelectModule, MatDialogModule
+    MatExpansionModule, MatSelectModule, MatDialogModule, MatGridListModule
   ],
   exports: [
     MatButtonModule, MatCheckboxModule, MatCardModule, MatInputModule, MatProgressBarModule, MatProgressSpinnerModule, MatStepperModule,
     MatDividerModule, MatIconModule, MatTooltipModule, MatChipsModule, MatAutocompleteModule, MatButtonToggleModule, MatListModule,
-    MatExpansionModule, MatSelectModule, MatDialogModule
+    MatExpansionModule, MatSelectModule, MatDialogModule, MatGridListModule
   ],
 })
 export class MaterialModule { }

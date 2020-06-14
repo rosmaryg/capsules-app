@@ -5,7 +5,7 @@
     <div fxLayout="row" fxLayoutAlign="space-around center">
       <mdb-navbar-brand>
         <a class="logo navbar-brand" [routerLink]="['/']" href="#">
-          <img src="./assets/images/capsules_logo.png" style="width: 300px; padding: 10px 50px;">
+          <img src="./assets/images/logo.png" style="width: 300px; padding: 10px 50px;">
         </a>
       </mdb-navbar-brand>
 
@@ -16,9 +16,27 @@
 
       <links>
         <ul class="navbar-nav mr-auto">
-          <li *ngFor="let navBarItem of navBarItems" routerLink="{{ navBarItem.route }}" routerLinkActive="active" class="nav-item waves-light" mdbWavesEffect>
-            <a class="nav-link" [routerLink]="[ navBarItem.route ]" [queryParams]="navBarItem.queryParams">{{ navBarItem.name.toLocaleUpperCase() }}</a>
+          <li *ngFor="let navBarItem of navBarItems" routerLink="{{ navBarItem.route }}" routerLinkActive="active" class="nav-item waves-light menu-item" mdbWavesEffect>
+            <a class="nav-link" [routerLink]="[ navBarItem.route ]">{{ navBarItem.name.toLocaleUpperCase() }}</a>
           </li>
+          <li class="nav-item waves-light menu-item" mdbWavesEffect *ngIf="!isLoggedIn()">
+            <a class="nav-link" [routerLink]="[ navBarLogin.route ]" [queryParams]="navBarLogin.queryParams">{{ navBarLogin.name.toLocaleUpperCase() }}</a>
+          </li>
+          <li class="nav-item dropdown menu-item" dropdown *ngIf="isLoggedIn()">
+            <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+              {{ userName.toLocaleUpperCase() }}
+              <span class="caret"></span></a>
+            <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+              <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/admin" *ngIf="contributor">Admin</a>
+              <a class="dropdown-item waves-light" mdbWavesEffect (click)="becomeAContriutor()" *ngIf="!contributor">Become a Contributor</a>
+              <a class="dropdown-item waves-light" mdbWavesEffect href="#">Another action</a>
+              <a class="dropdown-item waves-light" mdbWavesEffect href="#">Something else here</a>
+              <div class="divider dropdown-divider"></div>
+              <a class="dropdown-item waves-light" [routerLink]="[ navBarLogout.route ]" (click)="logout()">{{ navBarLogout.name.toLocaleUpperCase() }}</a>
+
+            </div>
+          </li>
+
         </ul>
       </links>
     </div>
