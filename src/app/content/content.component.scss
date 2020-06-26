@@ -38,6 +38,47 @@
   font-family: "Playfair Display";
 }
 
+.list-header {
+  padding: 10px 0;
+}
+
 .notes-item {
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.notes {
+  word-break: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+}
+
+.capsule-title {
+  font-size: 38px;
+}
+
+.capsule-subtitle {
+  font-family: "Playfair Display";
+  font-size: 20px;
+}
+
+.slide-title {
+  font-family: "Playfair Display";
+  font-size: 22px;
+}
+
+.keytakeaway-title {
+  font-size: 15px;
+}
+
+.keytakeaway-content {
+  font-size: 14px;
+}
+
+.permission-text {
+  font-size: 13px;
+  text-align: right;
 }

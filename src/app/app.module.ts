@@ -23,6 +23,7 @@ import { SorterComponent } from './sorter/sorter.component';
 import { ContentTextComponent } from './content-text/content-text.component';
 import { TextSelectDirective } from './text-select/text-select.directive';
 import { MdePopoverModule } from '@material-extended/mde';
+import { NotesModalComponent } from './notes-modal/notes-modal.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MdePopoverModule } from '@material-extended/mde';
     CapsuleDetailsDialogComponent,
     SorterComponent,
     ContentTextComponent,
-    TextSelectDirective
+    TextSelectDirective,
+    NotesModalComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,10 @@ import { MdePopoverModule } from '@material-extended/mde';
   ],
   providers: [
     RedirectGuard
+  ],
+  entryComponents: [
+    CapsuleDetailsDialogComponent,
+    NotesModalComponent
   ],
   bootstrap: [AppComponent]
 })

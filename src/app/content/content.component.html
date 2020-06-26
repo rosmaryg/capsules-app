@@ -10,8 +10,8 @@
             <p class="text-white" style="margin: 0;">WORKSHEET PREVIEW</p>
           </div>
           <br>
-          <mat-card-title>{{ content.title }}</mat-card-title>
-          <h5 class="capsule-subheading">{{ content.author }}</h5>
+          <span class="capsule-title">{{ content.title }}</span>
+          <i class="capsule-subtitle">{{ content.author }}</i>
         </div>
 
         <div fxLayout="column" fxLayoutAlign="center end">
@@ -19,7 +19,8 @@
           <mat-card class="navigator-border" fxLayout="row" fxLayoutAlign="space-around center">
             <div fxFlex="20" class="navigator-button-left" fxLayout="row" fxLayoutAlign="center center">
               <button matTooltip="Sort Ascending" mat-icon-button (click)="goBack(capsuleContentSlides)" [disabled]="pageIndex === 1" style="outline: none; padding-right: 15px;">
-                <mat-icon svgIcon="down_arrow"></mat-icon>
+                <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.3; transform: rotate(90deg);" *ngIf="pageIndex === 1">
+                <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.7; transform: rotate(90deg);" *ngIf="pageIndex > 1">
               </button>
 
             </div>
@@ -31,12 +32,13 @@
 
             <div fxFlex="20" class="navigator-button-right">
               <button matTooltip="Sort Ascending" mat-icon-button (click)="goForward(capsuleContentSlides)" [disabled]="pageIndex > pageCount" style="outline: none; padding-right: 5px;">
-                <mat-icon svgIcon="down_arrow"></mat-icon>
+                <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.3; transform: rotate(270deg);" *ngIf="pageIndex > pageCount">
+                <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.7; transform: rotate(270deg);" *ngIf="pageIndex <= pageCount">
               </button>
             </div>
           </mat-card>
           <div fxLayout="row" fxLayoutAlign="center center">
-            <button mat-icon-button (click)="createPDF()">
+            <button mat-icon-button (click)="createPDF()" style="outline: none;">
               <mat-icon svgIcon="attachments" style="margin: 5px;"></mat-icon>
             </button>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -55,50 +57,72 @@
     <div fxLayout="row" fxLayoutAlign="center center">
       <mat-progress-bar mode="determinate" [value]="((pageIndex)/(pageCount)) * 100" fxFlex="50"></mat-progress-bar>
     </div>
+    <div fxLayout="row" fxLayoutAlign="center center" style="padding: 8px;">
+      <span class="permission-text" fxFlex="50">Shared with permission from Taizé: Copyright ©️ Ateliers et Presses de Taizé, 71250 Taizé, France</span>
+    </div>
 
-    <br>
-    <mat-horizontal-stepper #capsuleContentSlides>
+    <mat-horizontal-stepper #capsuleContentSlides style="padding-top: 30px">
       <mat-step *ngFor="let slide of content.slides">
         <div fxLayout="row" fxLayoutAlign="center start" style="margin: auto;" fxFlex="51">
 
-          <div style="padding-right: 15px" fxLayout="column" fxLayoutAlign="center start" fxFlex="70">
-            <mat-card-title>{{ slide.title }}</mat-card-title>
+          <!-- slide content -->
+          <div style="padding-right: 15px" fxLayout="column" fxLayoutAlign="center start" fxFlex="60">
+            <mat-card-title class="slide-title">{{ slide.title }}</mat-card-title>
             <mat-card-subtitle>{{ slide.subtitle }}</mat-card-subtitle>
             <mat-card-content fxLayout="column" fxLayoutAlign="center start">
-              <app-content-text [text]="slide.content"></app-content-text>
-<!--              <div>-->
-<!--                <p>{{ slide.content }}</p>-->
-<!--              </div>-->
+              <app-content-text [text]="slide.content" [(highlights)]="slide.highlights"></app-content-text>
             </mat-card-content>
           </div>
-          <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="30">
+
+          <!-- space between content text and key takeaways + highlights + notes -->
+          <div fxFlex="5"></div>
+
+          <!-- key takeaways + highlights + notes -->
+          <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="35">
             <div *ngIf="slide.keyTakeAways && slide.keyTakeAways.length > 0" fxLayout="column"
                  fxLayoutAlign="center center" style="padding: 10px; border: solid thin #FF7D12;">
               <div fxFlex="75" style="padding: 15px 25px; border: solid thin #ededed; background-color: rgba(255, 125, 18, 0.1)">
-                <strong>KEY TAKEAWAYS</strong>
-                <br>
-                <div *ngFor="let keyTakeAway of slide.keyTakeAways">
-                  <br>
-                  <strong style="margin: 0; color: #FF7D12; text-align: justify-all">{{keyTakeAway.toUpperCase()}}</strong>
+                <strong class="keytakeaway-title">KEY TAKEAWAYS</strong>
+                <div style="padding-top: 10px; padding-bottom: 10px;">
+                  <div *ngFor="let keyTakeAway of slide.keyTakeAways; let takeawayIndex = index;">
+                    <br *ngIf="takeawayIndex !== 0">
+                    <strong style="margin: 0; color: #FF7D12; text-align: justify-all">{{keyTakeAway.toUpperCase()}}</strong>
+                  </div>
                 </div>
               </div>
             </div>
 
             <br *ngIf="slide.keyTakeAways && slide.keyTakeAways.length > 0">
             <mat-list style="padding: 0">
-              <div class="notes-item" style="padding-top: 0;">
+              <div class="list-header" style="padding-top: 0;">
                 <strong>HIGHLIGHTS AND NOTES</strong>
               </div>
               <mat-divider></mat-divider>
 
-              <div class="notes-item" *ngIf="true">
-                <i>Select text to highlight and add notes</i>
+              <div class="notes-item" *ngIf="getHighlights().length === 0">
+                <span style="color: #878787">select a word or a sentence to highlight the text and add a note</span>
               </div>
-              <mat-divider *ngIf="true"></mat-divider>
-
+              <mat-divider *ngIf="getHighlights().length === 0"></mat-divider>
+              <div *ngIf="getHighlights().length > 0">
+                <div *ngFor="let highlightCheckSlide of content.slides">
+<!--                  {{highlightCheckSlide}}-->
+                  <div *ngFor="let highlight of highlightCheckSlide.highlights">
+                    <div fxLayout="row" fxLayoutAlign="space-between start">
+                      <div class="notes-item">
+                        <span class="notes">{{highlight.content}}</span>
+                      </div>
+                      <button mat-icon-button style="outline: none;"
+                              (click)="openDialog(highlightCheckSlide, highlight)">
+                        <img src="./assets/icons/topic.svg" style="margin:5px; width: 32px; height: 23px;">
+                      </button>
+                    </div>
+                    <mat-divider></mat-divider>
+                  </div>
+                </div>
+              </div>
               <br>
 
-              <div class="notes-item">
+              <div class="list-header">
                 <strong>ADDITIONAL NOTES</strong>
               </div>
               <mat-divider></mat-divider>
@@ -114,16 +138,21 @@
         <div fxLayout="column" fxLayoutAlign="center start" style="margin: auto;" fxFlex="51">
           <div *ngFor="let slide of content.slides; let slidesIndex = index;">
             <p style="font-size: xx-large">{{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}</p>
-            <strong style="color: #FF7D12">KEY TAKEAWAYS</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <strong style="font-size: 12px; color: #FF7D12">KEY TAKEAWAYS</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways" style="font-size: 20px;">{{keyTakeAway}}</p>
             <br>
 
-            <strong style="color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <strong style="font-size: 12px; color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
+            <div *ngFor="let keyTakeAway of slide.keyTakeAways" style="padding-bottom: 15px;">
+              <i style="font-family: 'Playfair Display'; font-size: 16px;">{{keyTakeAway}}</i>
+              <br>
+              <span style="font-size: 16px;">{{keyTakeAway}}</span>
+              <br>
+            </div>
             <br>
 
-            <strong style="color: #FF7D12">ADDITIONAL NOTES</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <strong style="font-size: 12px; color: #FF7D12">ADDITIONAL NOTES</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways" style="font-size: 16px;">{{keyTakeAway}}</p>
             <br>
 
           </div>
@@ -141,9 +170,11 @@
           <div  style="background-color: #000000; padding: 0 15px;">
             <p class="text-white" style="margin: 0;">WORKSHEET</p>
           </div>
-          <mat-card-title>{{ content.title }}</mat-card-title>
-          <h5 class="capsule-subheading">{{ content.author }}</h5>
+          <span class="capsule-title">{{ content.title }}</span>
+          <i class="capsule-subtitle" style="padding-bottom: 8px;">{{ content.author }}</i>
           <mat-progress-bar mode="determinate" [value]="100"></mat-progress-bar>
+          <span class="permission-text" style="width: 100%; padding-top: 8px; font-size: 11px;">Shared with permission from Taizé: Copyright ©️ Ateliers et Presses de Taizé, 71250 Taizé, France</span>
+
           <br>
           <div *ngFor="let slide of content.slides; let slidesIndex = index;">
             <p style="font-size: xx-large">{{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}</p>

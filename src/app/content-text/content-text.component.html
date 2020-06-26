@@ -1,0 +1,41 @@
+<div (textSelect)="renderRectangles( $event )" style="position: relative">
+  <!--
+        NOTE: Because we DON'T WANT the selected text to get deselected
+        when we click on the call-to-action, we have to PREVENT THE
+        DEFAULT BEHAVIOR and STOP PROPAGATION on some of the events. The
+        byproduct of this is that the (click) event won't fire. As such,
+        we then have to consume the click-intent by way of the (mouseup)
+        event.
+      -->
+  <mde-popover [ngStyle] = "{'left.px': left,'top.px': top}" #appPopover="mdePopover" mdePopoverPositionX="before"
+    mdePopoverPositionY="above" [mdePopoverTriggerFor]="appPopover" style="position: relative; z-index: 2;"
+               [mdePopoverArrowWidth]="8" mdePopoverArrowColor="rgba(0, 0, 0, 0.9)"
+               [mdePopoverOverlapTrigger]="false" mdePopoverTriggerOn="none">
+    <div style="padding: 0; background-color: rgba(0, 0, 0, 0.9); border-radius: 5px">
+      <button mat-icon-button style="outline: none;" (click)="highlight()"
+              (mousedown)="$event.preventDefault()" (mouseup)="$event.stopPropagation();">
+        <mat-icon style="margin: 5px;" color="accent">create</mat-icon>
+      </button>
+      <button mat-icon-button style="outline: none;" (click)="takeNoteOnHighlight()"
+              (mousedown)="$event.preventDefault()" (mouseup)="$event.stopPropagation();">
+        <mat-icon style="margin: 5px;" color="accent">sticky_note_2</mat-icon>
+      </button>
+    </div>
+  </mde-popover>
+
+  <!--
+  The host rectangle has to be contained WITHIN the element that has the
+  [textSelect] directive because the rectangle will be absolutely
+  positioned relative to said element.
+-->
+  <div style="display: grid;">
+    <div class="slide-content" style="grid-column: 1; grid-row: 1;">
+          <span *ngFor="let text of highlightedText">
+            <a [ngClass]="{'capsule-highlight': text.highlight}" *ngIf="text.highlight" (click)="highlightClick(text)" style="position: relative; z-index: 10">{{text.content}}</a>
+            <span [ngClass]="{'capsule-highlight': text.highlight}" *ngIf="!text.highlight" style="z-index: 2">{{text.content}}</span>
+          </span>
+    </div>
+    <p class="slide-content" style="grid-column: 1; grid-row: 1; z-index: 3;" (click)="highlightClose()">{{text}}</p>
+  </div>
+
+</div>

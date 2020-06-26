@@ -1,0 +1,36 @@
+.bg-blue {
+  background-color: lightblue;
+}
+.bg-pink {
+  background-color: lightcoral;
+}
+
+.capsule-orange {
+  background-color: #FF7D12;
+}
+
+.indicator__cta {
+
+}
+
+::selection {
+  background:rgba(209, 209, 209, 0.7);
+  text-shadow:none;
+}
+
+.capsule-highlight {
+  padding-bottom: 3px;
+  background:rgba(255, 234, 0, 0.4);
+  text-shadow:none;
+}
+
+
+.slide-title {
+  font-family: "Playfair Display";
+  font-size: 22px;
+}
+
+.slide-content {
+  font-family: "Playfair Display";
+  font-size: 20px;
+}
