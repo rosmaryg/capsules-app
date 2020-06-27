@@ -12,11 +12,15 @@
                [mdePopoverArrowWidth]="8" mdePopoverArrowColor="rgba(0, 0, 0, 0.9)"
                [mdePopoverOverlapTrigger]="false" mdePopoverTriggerOn="none">
     <div style="padding: 0; background-color: rgba(0, 0, 0, 0.9); border-radius: 5px">
-      <button mat-icon-button style="outline: none;" (click)="highlight()"
+      <button mat-icon-button style="outline: none;" (click)="highlight()" *ngIf="getHighlightSelectionType() === 'selection'"
               (mousedown)="$event.preventDefault()" (mouseup)="$event.stopPropagation();">
         <mat-icon style="margin: 5px;" color="accent">create</mat-icon>
       </button>
-      <button mat-icon-button style="outline: none;" (click)="takeNoteOnHighlight()"
+      <button mat-icon-button style="outline: none;" (click)="deleteHighlight()" *ngIf="getHighlightSelectionType() === 'highlight'"
+              (mousedown)="$event.preventDefault()" (mouseup)="$event.stopPropagation();">
+        <mat-icon style="margin: 5px;" color="accent">delete</mat-icon>
+      </button>
+      <button mat-icon-button style="outline: none;" (click)="takeNoteOnHighlight()" *ngIf="getHighlightSelectionType() === 'highlight' || getHighlightSelectionType() === 'notes'"
               (mousedown)="$event.preventDefault()" (mouseup)="$event.stopPropagation();">
         <mat-icon style="margin: 5px;" color="accent">sticky_note_2</mat-icon>
       </button>
@@ -31,8 +35,11 @@
   <div style="display: grid;">
     <div class="slide-content" style="grid-column: 1; grid-row: 1;">
           <span *ngFor="let text of highlightedText">
-            <a [ngClass]="{'capsule-highlight': text.highlight}" *ngIf="text.highlight" (click)="highlightClick(text)" style="position: relative; z-index: 10">{{text.content}}</a>
-            <span [ngClass]="{'capsule-highlight': text.highlight}" *ngIf="!text.highlight" style="z-index: 2">{{text.content}}</span>
+            <a [ngClass]="{'capsule-highlight': hasHighlight(text), 'capsule-highlight-note': hasNote(text)}"
+               *ngIf="text.highlight" (click)="highlightClick(text)" style="position: relative; z-index: 10">
+              {{text.content}}
+            </a>
+            <span *ngIf="!text.highlight" style="z-index: 2">{{text.content}}</span>
           </span>
     </div>
     <p class="slide-content" style="grid-column: 1; grid-row: 1; z-index: 3;" (click)="highlightClose()">{{text}}</p>

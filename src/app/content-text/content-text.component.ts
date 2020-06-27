@@ -3,7 +3,6 @@ import {TextSelectEvent} from '../text-select/text-select.directive';
 import {MdePopoverTrigger} from '@material-extended/mde';
 import {Highlight} from '../shared/highlight/highlight/highlight.model';
 import {NotesModalComponent} from '../notes-modal/notes-modal.component';
-import {DomSanitizer} from '@angular/platform-browser';
 import {MatDialog} from '@angular/material/dialog';
 
 
@@ -97,8 +96,7 @@ export class ContentTextComponent implements OnInit, OnChanges {
 
     this.selectedText.top = this.top;
     this.selectedText.left = this.left;
-    const highlightId = this.generateId();
-    this.selectedText.id = highlightId;
+    this.selectedText.id = this.generateId();
     this.highlights.push(this.selectedText);
     this.updateHighlights();
 
@@ -153,7 +151,7 @@ export class ContentTextComponent implements OnInit, OnChanges {
 
   updateHighlights() {
     // clone the highlights array
-    const highlightsArray = [...this.highlights]
+    const highlightsArray = [...this.highlights];
 
     highlightsArray.sort((a: Highlight, b: Highlight) => {
       return a.start - b.start;
@@ -198,10 +196,13 @@ export class ContentTextComponent implements OnInit, OnChanges {
   }
 
   highlightClick(text) {
-    this.clickedText = text;
+    if (this.highlightPopover) {
+      this.trigger.closePopover();
+    }
     this.left = text.left;
     this.top = text.top;
     this.highlightPopover = true;
+    this.clickedText = text;
     this.trigger.openPopover();
   }
 
@@ -216,12 +217,34 @@ export class ContentTextComponent implements OnInit, OnChanges {
     this.clickedText = null;
   }
 
-  // deleteHighlight() {
-  //   this.highlightsMap.delete(this.clickedText.id);
-  //   this.updateHighlights();
-  // }
+  deleteHighlight() {
+    this.highlights.splice(this.highlights.indexOf(this.getHighlight(this.clickedText.id)), 1);
+    this.highlightClose();
+    this.updateHighlights();
+  }
 
   takeNoteOnHighlight() {
     this.openDialog(this.clickedText);
+  }
+
+  getHighlightType(highlight) {
+    return highlight.notes && highlight.notes !=='' ? 'notes' : 'highlight';
+  }
+
+  getHighlightSelectionType() {
+    if (this.highlightPopover) {
+      const highlight = this.getHighlight(this.clickedText.id);
+      return this.getHighlightType(highlight);
+    } else {
+      return 'selection';
+    }
+  }
+
+  hasHighlight(highlightedText) {
+    return this.getHighlightType(this.getHighlight(highlightedText.id)) === 'highlight';
+  }
+
+  hasNote(highlightedText) {
+    return this.getHighlightType(this.getHighlight(highlightedText.id)) === 'notes';
   }
 }
