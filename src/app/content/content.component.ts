@@ -137,12 +137,13 @@ export class ContentComponent implements OnInit {
     return Array.from(highlightsMap.keys());
   }
 
-  openDialog(type, highlight?: Highlight) {
+  openDialog(type, highlight?: Highlight, notes?: string) {
     return this.dialog.open(NotesModalComponent, {
       panelClass: 'full-screen-dialog',
       autoFocus: false, // needed to prevent text area from being focused on when opened
       data: {
         type,
+        notes,
         highlight
       }
     });
@@ -172,11 +173,21 @@ export class ContentComponent implements OnInit {
   }
 
   openNoteDialog(slide) {
-    const dialogRef = this.openDialog('notes');
+    const dialogRef = this.openDialog('notes', null, slide.additionalNotes);
 
     dialogRef.afterClosed().subscribe(
       data => {
-        slide.additionalNotes = data.notes;
+        switch (data.action) {
+          case 'save':
+            slide.additionalNotes = data.notes;
+            break;
+          case 'delete':
+            slide.additionalNotes = '';
+            break;
+          case 'cancel':
+          default:
+            break;
+        }
       }
     );
   }

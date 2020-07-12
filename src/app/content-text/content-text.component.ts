@@ -115,6 +115,7 @@ export class ContentTextComponent implements OnInit, OnChanges {
       panelClass: 'full-screen-dialog',
       autoFocus: false, // needed to prevent text area from being focused on when opened
       data: {
+        type: 'highlightNotes',
         highlight: this.getHighlight(highlight.id)
       }
     });

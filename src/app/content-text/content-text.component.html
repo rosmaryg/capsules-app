@@ -35,10 +35,10 @@
   <div style="display: grid;">
     <div class="slide-content" style="grid-column: 1; grid-row: 1;">
           <span *ngFor="let text of highlightedText">
-            <a [ngClass]="{'capsule-highlight': text.type === 'highlight', 'capsule-highlight-note': text.type === 'notes'}"
-               *ngIf="text.highlight" (click)="highlightClick(text)" style="position: relative; z-index: 10; display: inline-block">
-              {{text.content}}
-            </a><!--
+            <!-- Following anchor has to be kept in one line despite it going over recommended length in order to-->
+            <!-- prevent the browser from including an additional space after highlighted words that may have -->
+            <!-- punctuation marks that immediately follow it without a space-->
+            <a [ngClass]="{'capsule-highlight': text.type === 'highlight', 'capsule-highlight-note': text.type === 'notes'}" *ngIf="text.highlight" (click)="highlightClick(text)" style="position: relative; z-index: 10;">{{text.content}}</a><!--
             --><span *ngIf="!text.highlight" style="z-index: 2">{{text.content}}</span>
           </span>
     </div>
