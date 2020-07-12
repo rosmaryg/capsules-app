@@ -3,5 +3,5 @@ export class Slide {
   subtitle: string;
   content: string;
   keyTakeAways: Array<string>;
-  yourTakeAways: string;
+  additionalNotes: string;
 }

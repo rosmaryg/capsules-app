@@ -23,8 +23,7 @@ export class EditorComponent implements OnInit {
     content: '',
     keyTakeAways: [
       ''
-    ],
-    yourTakeAways: ''
+    ]
   };
   slideConfig = {
     infinite: false,

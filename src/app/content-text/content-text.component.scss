@@ -19,13 +19,13 @@
 }
 
 .capsule-highlight {
-  padding-bottom: 3px;
+  //padding-bottom: 3px;
   background:rgba(255, 234, 0, 0.4);
   text-shadow:none;
 }
 
 .capsule-highlight-note {
-  padding-bottom: 3px;
+  //padding-bottom: 3px;
   background:rgba(255, 125, 18, 0.3);
   text-shadow:none;
 }
@@ -38,4 +38,10 @@
 .slide-content {
   font-family: "Playfair Display";
   font-size: 20px;
+}
+
+
+.invert-color {
+  -webkit-filter: invert(1);
+  filter: invert(1);
 }

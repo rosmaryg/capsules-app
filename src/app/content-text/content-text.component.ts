@@ -125,6 +125,7 @@ export class ContentTextComponent implements OnInit, OnChanges {
         switch (data.action) {
           case 'save':
             this.getHighlight(highlight.id).notes = data.notes;
+            this.updateHighlights();
             break;
           case 'delete':
             this.highlights.splice(this.highlights.indexOf(this.getHighlight(highlight.id)), 1);
@@ -134,6 +135,8 @@ export class ContentTextComponent implements OnInit, OnChanges {
           default:
             break;
         }
+
+        this.highlightClose();
       }
     );
   }
@@ -182,6 +185,7 @@ export class ContentTextComponent implements OnInit, OnChanges {
       this.highlightedText.push({
         content: this.text.substring(highlight.start, highlight.end),
         highlight: true,
+        type: this.getHighlightType(highlight),
         top: highlight.top,
         left: highlight.left,
         id: highlight.id

@@ -37,14 +37,22 @@
               </button>
             </div>
           </mat-card>
-          <div fxLayout="row" fxLayoutAlign="center center">
-            <button mat-icon-button (click)="createPDF()" style="outline: none;">
-              <mat-icon svgIcon="attachments" style="margin: 5px;"></mat-icon>
+          <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 10px;">
+            <button mat-icon-button (click)="printPDF()" style="outline: none;">
+              <img src="./assets/icons/slider/summ_print.svg" style="margin:5px; width: 20px;">
             </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <mat-icon svgIcon="most_popular" style="margin: 5px;"></mat-icon>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <mat-icon svgIcon="most_popular" style="margin: 5px;"></mat-icon>
+            <button mat-icon-button (click)="savePDF()" style="outline: none;">
+              <img src="./assets/icons/slider/summ_dwnld.svg" style="margin:5px; width: 20px;">
+            </button>
+            <button mat-icon-button (click)="createPDF()" style="outline: none;">
+              <img src="./assets/icons/slider/summ_pview.svg" style="margin:5px; width: 20px;">
+            </button>
+            <button mat-icon-button (click)="createPDF()" style="outline: none;">
+              <img src="./assets/icons/slider/summ_help.svg" style="margin:5px; width: 20px;">
+            </button>
+            <button mat-icon-button (click)="createPDF()" style="outline: none;">
+              <img src="./assets/icons/slider/summ_rest.svg" style="margin:5px; width: 20px;">
+            </button>
           </div>
 
         </div>
@@ -112,8 +120,8 @@
                         <span class="notes">{{highlight.content}}</span>
                       </div>
                       <button mat-icon-button style="outline: none;"
-                              (click)="openDialog(highlightCheckSlide, highlight)">
-                        <img src="./assets/icons/topic.svg" style="margin:5px; width: 32px; height: 23px;">
+                              (click)="openHighlightDialog(highlightCheckSlide, highlight)">
+                        <img src="./assets/icons/slider/note.svg" style="margin:5px; width: 32px; height: 23px;">
                       </button>
                     </div>
                     <mat-divider></mat-divider>
@@ -128,7 +136,10 @@
               <mat-divider></mat-divider>
 
               <div class="notes-item">
-                <mat-icon svgIcon="topic"></mat-icon>
+                <button mat-icon-button style="outline: none;"
+                        (click)="openNoteDialog(slide)">
+                  <img src="./assets/icons/slider/note.svg" style="margin:5px; width: 32px; height: 23px;">
+                </button>
               </div>
             </mat-list>
           </div>
@@ -143,16 +154,17 @@
             <br>
 
             <strong style="font-size: 12px; color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
-            <div *ngFor="let keyTakeAway of slide.keyTakeAways" style="padding-bottom: 15px;">
-              <i style="font-family: 'Playfair Display'; font-size: 16px;">{{keyTakeAway}}</i>
+            <div *ngFor="let highlight of slide.highlights" style="padding-bottom: 15px;">
+              <i style="font-family: 'Playfair Display'; font-size: 16px;">{{highlight.content}}</i>
               <br>
-              <span style="font-size: 16px;">{{keyTakeAway}}</span>
+              <span style="font-size: 16px;">{{highlight.notes}}</span>
+              <br>
               <br>
             </div>
             <br>
 
             <strong style="font-size: 12px; color: #FF7D12">ADDITIONAL NOTES</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways" style="font-size: 16px;">{{keyTakeAway}}</p>
+            <p style="font-size: 16px;">{{slide.additionalNotes}}</p>
             <br>
 
           </div>
@@ -178,16 +190,21 @@
           <br>
           <div *ngFor="let slide of content.slides; let slidesIndex = index;">
             <p style="font-size: xx-large">{{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}</p>
-            <strong style="color: #FF7D12">KEY TAKEAWAYS</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <strong style="font-size: 12px; color: #FF7D12">KEY TAKEAWAYS</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways" style="font-size: 20px;">{{keyTakeAway}}</p>
             <br>
 
-            <strong style="color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
-            <br>
+            <strong style="font-size: 12px; color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
+            <div *ngFor="let highlight of slide.highlights" style="padding-bottom: 15px;">
+              <i style="font-family: 'Playfair Display'; font-size: 16px;">{{highlight.content}}</i>
+              <br>
+              <span style="font-size: 16px;">{{highlight.notes}}</span>
+              <br>
+              <br>
+            </div>
 
-            <strong style="color: #FF7D12">ADDITIONAL NOTES</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways">{{keyTakeAway}}</p>
+            <strong style="font-size: 12px; color: #FF7D12">ADDITIONAL NOTES</strong>
+            <p style="font-size: 16px;">{{slide.additionalNotes}}</p>
             <br>
           </div>
         </div>

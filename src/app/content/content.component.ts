@@ -49,7 +49,6 @@ export class ContentComponent implements OnInit {
         .subscribe((data: any) => {
           this.content = data;
           this.pageCount = data.slides.length;
-          this.getMyTakeaways();
           this.getKeyTakeaways();
           this.collectHighlights();
         });
@@ -68,15 +67,6 @@ export class ContentComponent implements OnInit {
     for (const slide of this.content.slides) {
       for (const keyTakeAway of slide.keyTakeAways) {
         this.keyTakeaways.push(keyTakeAway);
-      }
-    }
-  }
-
-  getMyTakeaways() {
-    this.myTakeaways = [];
-    for (const slide of this.content.slides) {
-      if (slide.yourTakeAways !== '') {
-        this.myTakeaways.push(slide.yourTakeAways);
       }
     }
   }
@@ -115,7 +105,22 @@ export class ContentComponent implements OnInit {
       jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
     };
 
-    html2pdf().set(opt).from(element).save();
+    return {
+      element,
+      opt
+    }
+  }
+
+  printPDF() {
+    const pdfOptions = this.createPDF();
+    html2pdf().set(pdfOptions.opt).from(pdfOptions.element).toPdf().get('pdf').then(pdf => {
+      window.open(pdf.output('bloburl'), '_blank');
+    });
+  }
+
+  savePDF() {
+    const pdfOptions = this.createPDF();
+    html2pdf().set(pdfOptions.opt).from(pdfOptions.element).save();
   }
 
   goBack(stepper: MatStepper) {
@@ -132,14 +137,19 @@ export class ContentComponent implements OnInit {
     return Array.from(highlightsMap.keys());
   }
 
-  openDialog(slide, highlight) {
-    const dialogRef = this.dialog.open(NotesModalComponent, {
+  openDialog(type, highlight?: Highlight) {
+    return this.dialog.open(NotesModalComponent, {
       panelClass: 'full-screen-dialog',
       autoFocus: false, // needed to prevent text area from being focused on when opened
       data: {
+        type,
         highlight
       }
     });
+  }
+
+  openHighlightDialog(slide, highlight) {
+    const dialogRef = this.openDialog('highlightNotes', highlight);
 
     dialogRef.afterClosed().subscribe(
       data => {
@@ -157,6 +167,16 @@ export class ContentComponent implements OnInit {
 
         slide.highlights = [...slide.highlights];
         this.collectHighlights();
+      }
+    );
+  }
+
+  openNoteDialog(slide) {
+    const dialogRef = this.openDialog('notes');
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        slide.additionalNotes = data.notes;
       }
     );
   }
