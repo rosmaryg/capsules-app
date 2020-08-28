@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.16 10.2"><defs><style>.cls-1{fill:none;stroke:#1d1d1b;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.5px;}.cls-2{fill:#1d1d1b;opacity:0.3;}</style></defs><title>easy</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect class="cls-1" x="0.75" y="0.75" width="23.66" height="8.7" rx="4.35" ry="4.35"/><line class="cls-1" x1="7.58" y1="0.75" x2="7.58" y2="9.45"/><path class="cls-2" d="M7.79,1.46H4.66v0A3.66,3.66,0,0,0,1.27,5.22,3.66,3.66,0,0,0,4.66,9V9H7.79Z"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 26 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:10;">
+    <g id="Layer_2">
+        <g id="Layer_1-2">
+            <path d="M24.41,5.1C24.41,2.699 22.461,0.75 20.06,0.75L5.1,0.75C2.699,0.75 0.75,2.699 0.75,5.1C0.75,7.501 2.699,9.45 5.1,9.45L20.06,9.45C22.461,9.45 24.41,7.501 24.41,5.1Z" style="fill:none;stroke:rgb(29,29,27);stroke-width:1.5px;"/>
+            <path d="M7.58,0.75L7.58,9.45" style="fill:none;fill-rule:nonzero;stroke:rgb(29,29,27);stroke-width:1.5px;"/>
+            <path d="M7.79,1.46L4.66,1.46C2.717,1.603 1.212,3.273 1.27,5.22C1.201,7.175 2.71,8.857 4.66,9L7.79,9L7.79,1.46Z" style="fill:rgb(29,29,27);fill-opacity:0.3;fill-rule:nonzero;"/>
+        </g>
+    </g>
+</svg>
