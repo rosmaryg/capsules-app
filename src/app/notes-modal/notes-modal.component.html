@@ -1,11 +1,32 @@
 <mat-dialog-content fxLayout="column" fxLayoutAlign="center center" style="height: 200vh;">
   <mat-card class="notes-modal" style="padding: 50px 50px 10px; width: 40%">
     <div fxLayout="column" fxLayoutAlign="center start" fxFlex="100">
+
       <strong style="font-size: 12px; color: #878787" *ngIf="type === 'highlightNotes'">HIGHLIGHTED TEXT</strong>
+
       <span style="font-family: 'Playfair Display'; font-size: 22px; padding-top: 5px" *ngIf="type === 'highlightNotes'">{{highlight.content}}</span>
-      <strong style="font-size: 16px; padding-top: 30px;">YOUR NOTES</strong>
-      <mat-form-field style="width: 100%;" floatLabel="never">
+      <strong style="font-size: 16px; padding-top: 30px;"  *ngIf="type === 'highlightNotes'">YOUR NOTES</strong>
+
+<!--      <strong style="font-size: 16px;"  *ngIf="type === 'question'">MY DISCUSSION QUESTION</strong>-->
+      <span style="font-size: 30px; padding-top: 5px" *ngIf="type === 'question'">My Discussion Question</span>
+      <p style="font-family: 'Playfair Display'; font-size: 16px; padding-top: 5px" *ngIf="type === 'question'">
+        Write your own discussion question in the box below!
+      </p>
+
+      <span style="font-size: 30px; padding-top: 5px" *ngIf="type === 'personal'">Personal Connection</span>
+      <p style="font-family: 'Playfair Display'; font-size: 16px; padding-top: 5px" *ngIf="type === 'personal'">
+        Take a few moments to note what drew you to this Catholic Capsule. It may be something personal, simple, deep, funny or random! Sharing your connection with this topic will impact how your listeners relate with the material...it is like the difference between being introduced to someone instead of randomly meeting them :)
+      </p>
+
+<!--      <span style="font-size: 30px; padding-top: 5px" *ngIf="type === 'notes'">Additional Notes</span>-->
+      <strong style="font-size: 16px;"  *ngIf="type === 'notes'">ADDITIONAL NOTES</strong>
+
+      <mat-form-field style="width: 100%;" floatLabel="never" *ngIf="type !== 'question'">
         <textarea id="note-text" class="notes-text-area" matInput rows="7" placeholder="Type your notes here" [(ngModel)]="notes"></textarea>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;" floatLabel="never" *ngIf="type === 'question'">
+        <textarea id="question-text" class="notes-text-area" matInput rows="7" placeholder="Type your question here" [(ngModel)]="notes"></textarea>
       </mat-form-field>
 
       <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%;">

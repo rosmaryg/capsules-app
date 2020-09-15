@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   deployUrl: '/capsules-app',
-  repoOwner: 'jy-america'
+  repoOwner: 'rosmaryg'
 };

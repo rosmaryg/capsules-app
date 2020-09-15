@@ -1,0 +1,24 @@
+<div fxLayout="row" fxLayoutAlign="center center" style="height: 150px;"></div>
+
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="start center" style="width: 50%; padding: 20px 0;">
+    <i style="font-family: 'Playfair Display'; font-size: 25px; font-weight: bold; color: #ED681C">Frequently Asked Questions</i>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center" style="width: 50%; padding: 10px 0;" *ngFor="let item of items">
+    <div fxLayout="column">
+      <strong style="font-family: 'Playfair Display'; font-size: 20px; font-weight: bold;">{{item.question}}</strong>
+      <p style="font-family: 'Playfair Display'; font-size: 20px;">{{item.answer}}</p>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" style="width: 50%; padding: 10px 0;">
+    <div fxLayout="column">
+      <strong style="font-family: 'Playfair Display'; font-size: 20px; font-weight: bold;">How can I contact Catholic Capsules?</strong>
+      <p style="font-family: 'Playfair Display'; font-size: 20px;">
+        Please reach out to us at <a href = "mailto:catholiccapsules@jesusyouth.us" style="font-family: 'Playfair Display'; font-size: 20px; color: #ED681C;">CatholicCapsules@jesusyouth.us</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<br><br><br><br><br>

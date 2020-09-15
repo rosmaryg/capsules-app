@@ -20,7 +20,7 @@ export class NotesModalComponent implements OnInit {
 
     if (this.type === 'highlightNotes') {
       this.notes = this.highlight.notes;
-    } else if (this.type === 'notes') {
+    } else {
       this.notes = data.notes;
     }
   }
@@ -47,7 +47,12 @@ export class NotesModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    document.getElementById('note-text').blur();
+    if (document.getElementById('note-text')) {
+      document.getElementById('note-text').blur();
+    }
+    if (document.getElementById('question-text')) {
+      document.getElementById('question-text').blur();
+    }
   }
 
 }

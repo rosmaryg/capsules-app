@@ -4,13 +4,13 @@
 mat-card img {
   object-fit: cover; /*this makes the image in src fit to the size specified below*/
   width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
-  height: 125px;
+  height: 162px;
 }
 
 .details mat-card img {
   object-fit: cover; /*this makes the image in src fit to the size specified below*/
   width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
-  height: 200px;
+  height: 188px;
 }
 
 .capsule-container {
@@ -49,7 +49,14 @@ mat-card img {
   font-weight: bolder;
 }
 
+.capsule-heading {
+  font-size: 28px;
+  line-height: 32px;
+}
+
 .capsule-subheading {
+  font-size: 16px;
+  line-height: 20px;
   font-family: "Playfair Display";
 }
 
@@ -60,4 +67,27 @@ mat-card img {
 .accent-color {
   font-weight: bold;
   color: mat-color($app-primary, main) !important;
+}
+
+.white-icon {
+  filter: invert(100%) sepia(93%) saturate(0%) hue-rotate(201deg) brightness(106%) contrast(106%);
+}
+
+.gray-icon {
+  opacity: 0.5;
+}
+
+.capsule-details-heading {
+  font-size: 36px;
+}
+
+.capsule-details-subheading {
+  font-size: 18px;
+  font-family: "Playfair Display";
+}
+
+.topic-tags {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
 }

@@ -31,19 +31,7 @@ export class AppComponent implements OnInit{
     {
       name: 'FAQs',
       route: '/faqs'
-    },
-    {
-      name: 'Contact',
-      route: '/contact'
     }
-    // {
-    //   name: 'Admin',
-    //   route: '/admin'
-    // },
-    // {
-    //   name: 'Contact',
-    //   route: '/contact'
-    // }
   ];
 
   navBarLogout = {
@@ -57,48 +45,12 @@ export class AppComponent implements OnInit{
     queryParams: { externalUrl: this.githubOauthUrl }
   };
 
-  icons = [
-    'activity',
-    'attachments',
-    'close',
-    'down_arrow',
-    'easy',
-    'grid_active',
-    'grid_inactive',
-    'hard',
-    'lens',
-    'list_active',
-    'list_inactive',
-    'logo',
-    'medium',
-    'most_popular',
-    'notes',
-    'popular',
-    'recent',
-    'slides',
-    'sort_arrow',
-    'tick',
-    'topic',
-    'videos',
-    'untitled',
-
-    'signal_cellular_1_bar',
-    'signal_cellular_2_bar',
-    'signal_cellular_3_bar',
-    'signal_cellular_4_bar'
-  ];
-
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private authService: AuthService,
     private githubService: GithubService
-  ) {
-
-    for (const icon of this.icons) {
-      this.addIconToRegistry(icon);
-    }
-  }
+  ) { }
 
   ngOnInit() {
     if (this.isLoggedIn()) {
@@ -119,13 +71,6 @@ export class AppComponent implements OnInit{
     }
   }
 
-  addIconToRegistry(icon) {
-    this.matIconRegistry.addSvgIcon(
-      icon,
-      this.domSanitizer.bypassSecurityTrustResourceUrl(`${environment.deployUrl}/assets/icons/${icon}.svg`)
-    );
-  }
-
   isLoggedIn() {
     return this.authService.isLoggedIn();
   }
@@ -144,13 +89,5 @@ export class AppComponent implements OnInit{
         console.log(data);
       });
     }
-  }
-
-  renameContentRepo() {
-
-  }
-
-  deleteContentRepo() {
-
   }
 }

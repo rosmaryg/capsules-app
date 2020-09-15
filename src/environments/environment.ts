@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  deployUrl: '..'
+  deployUrl: '..',
+  repoOwner: undefined
 };
 
 /*

@@ -19,21 +19,36 @@
           <mat-card class="navigator-border" fxLayout="row" fxLayoutAlign="space-around center">
             <div fxFlex="20" class="navigator-button-left" fxLayout="row" fxLayoutAlign="center center">
               <button matTooltip="Sort Ascending" mat-icon-button (click)="goBack(capsuleContentSlides)" [disabled]="pageIndex === 1" style="outline: none; padding-right: 15px;">
-                <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.3; transform: rotate(90deg);" *ngIf="pageIndex === 1">
-                <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.7; transform: rotate(90deg);" *ngIf="pageIndex > 1">
+                <img src="./assets/icons/landing/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.3; transform: rotate(90deg);" *ngIf="pageIndex === 1">
+                <img src="./assets/icons/landing/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.7; transform: rotate(90deg);" *ngIf="pageIndex > 1">
               </button>
 
             </div>
-
             <div fxFlex="60" class="navigator-select" fxLayout="row" fxLayoutAlign="center center">
-              <p *ngIf="pageIndex <= pageCount" style="margin: 0;">{{pageIndex}} / {{pageCount}}</p>
-              <p *ngIf="pageIndex > pageCount" style="margin: 0;">Done!</p>
+              <mat-form-field>
+                <mat-select [value]="pageIndexSelectVal" (selectionChange)="goToSlide(capsuleContentSlides, $event.value)" disableOptionCentering="true">
+                  <mat-select-trigger>
+                    <div fxLayout="row" fxLayoutAlign="space-around center" style="padding-top: 6px;">
+                      <p *ngIf="pageIndex <= pageCount" style="margin: 0;">{{pageIndex}} / {{pageCount}}</p>
+                      <p *ngIf="pageIndex > pageCount" style="margin: 0;">Done!</p>
+                    </div>
+                  </mat-select-trigger>
+
+                  <mat-option *ngFor="let slideIndex of pagesArray" [value]="slideIndex">
+                    <span style="margin: auto">Slide {{slideIndex + 1}}</span>
+                  </mat-option>
+
+                  <mat-option [value]="pageCount">
+                    <span style="margin: auto">Preview</span>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
 
             <div fxFlex="20" class="navigator-button-right">
               <button matTooltip="Sort Ascending" mat-icon-button (click)="goForward(capsuleContentSlides)" [disabled]="pageIndex > pageCount" style="outline: none; padding-right: 5px;">
-                <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.3; transform: rotate(270deg);" *ngIf="pageIndex > pageCount">
-                <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.7; transform: rotate(270deg);" *ngIf="pageIndex <= pageCount">
+                <img src="./assets/icons/landing/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.3; transform: rotate(270deg);" *ngIf="pageIndex > pageCount">
+                <img src="./assets/icons/landing/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; opacity: 0.7; transform: rotate(270deg);" *ngIf="pageIndex <= pageCount">
               </button>
             </div>
           </mat-card>
@@ -94,7 +109,7 @@
                 <div style="padding-top: 10px; padding-bottom: 10px;">
                   <div *ngFor="let keyTakeAway of slide.keyTakeAways; let takeawayIndex = index;">
                     <br *ngIf="takeawayIndex !== 0">
-                    <strong style="margin: 0; color: #FF7D12; text-align: justify-all">{{keyTakeAway.toUpperCase()}}</strong>
+                    <strong style="margin: 0; color: #FF7D12; text-align: justify-all">{{keyTakeAway.keyTakeAway.toUpperCase()}}</strong>
                   </div>
                 </div>
               </div>
@@ -138,7 +153,7 @@
               <div class="notes-item">
                 <button mat-icon-button style="outline: none;"
                         (click)="openNoteDialog(slide)">
-                  <img src="./assets/icons/slider/note.svg" style="margin:5px; width: 32px; height: 23px;">
+                  <img class="orange-icon" src="./assets/icons/slider/note.svg" style="margin:5px; width: 32px; height: 23px;">
                 </button>
               </div>
             </mat-list>
@@ -147,24 +162,197 @@
       </mat-step>
       <mat-step>
         <div fxLayout="column" fxLayoutAlign="center start" style="margin: auto;" fxFlex="51">
-          <div *ngFor="let slide of content.slides; let slidesIndex = index;">
-            <p style="font-size: xx-large">{{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}</p>
-            <strong style="font-size: 12px; color: #FF7D12">KEY TAKEAWAYS</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways" style="font-size: 20px;">{{keyTakeAway}}</p>
-            <br>
+          <p style="font-size: xx-large">Personal Connection</p>
+          <div class="previewItem"  *ngIf="content.personalConnection"
+               fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%; min-height: 40px;"
+               (mouseenter)="content.personalConnectionHover = true" (mouseleave)="content.personalConnectionHover = false">
+            <span style="font-size: 16px;">{{content.personalConnection}}</span>
 
-            <strong style="font-size: 12px; color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
-            <div *ngFor="let highlight of slide.highlights" style="padding-bottom: 15px;">
-              <i style="font-family: 'Playfair Display'; font-size: 16px;">{{highlight.content}}</i><br>
-              <span style="font-size: 16px;">{{highlight.notes}}</span>
-              <br>
+            <button mat-icon-button (click)="openPersonalConnectionDialog()" style="outline: none;"
+                    *ngIf="content.personalConnectionHover">
+              <img src="./assets/icons/slider/edit.svg" style="margin:5px; width: 20px;">
+            </button>
+
+            <!-- Take the space of a button when no button is displayed -->
+            <div *ngIf="!content.personalConnectionHover" style="min-width: 45px;"></div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center" *ngIf="!content.personalConnection">
+            <i style="font-family: 'Playfair Display'; font-size: 16px;">Write your personal connection to this topic</i>
+            <button mat-icon-button (click)="openPersonalConnectionDialog()" style="outline: none;">
+              <img class="orange-icon" src="./assets/icons/slider/add.svg" style="margin:5px; width: 20px;">
+            </button>
+          </div>
+          <br>
+          <br>
+
+          <div *ngFor="let slide of content.slides; let slidesIndex = index;" style="width: 100%">
+            <p style="font-size: xx-large"
+               *ngIf="slide.keyTakeAways.length > 0 || slide.highlights.length > 0 || slide.additionalNotes">
+              {{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}
+            </p>
+
+            <strong style="font-size: 12px; color: #FF7D12" *ngIf="slide.keyTakeAways.length > 0">KEY TAKEAWAYS</strong>
+            <div class="previewItem" *ngFor="let keyTakeAway of slide.keyTakeAways"
+                 fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%; min-height: 40px;"
+                 (mouseenter)="keyTakeAway.hover = true" (mouseleave)="keyTakeAway.hover = false">
+              <span [ngClass]="{'unselected-item': !keyTakeAway.selected}" style="font-size: 20px;">{{keyTakeAway.keyTakeAway}}</span>
+
+              <!-- Restore an unselected key takeaway -->
+              <button mat-icon-button style="outline: none;" *ngIf="!keyTakeAway.selected"
+                      (click)="keyTakeAway.selected = !keyTakeAway.selected">
+                <img class="orange-icon" src="./assets/icons/slider/refresh.svg" style="margin:5px; width: 20px;">
+              </button>
+
+              <!-- Remove a key takeaway -->
+              <button mat-icon-button style="outline: none;" *ngIf="keyTakeAway.selected && keyTakeAway.hover"
+                      (click)="keyTakeAway.selected = !keyTakeAway.selected">
+                <img src="./assets/icons/slider/remove.svg" style="margin:5px; width: 20px;">
+              </button>
+
+              <!-- Take the space of a button when no button is displayed -->
+              <div *ngIf="!keyTakeAway.hover && keyTakeAway.selected" style="min-width: 45px;"></div>
             </div>
-            <br>
+            <br *ngIf="slide.keyTakeAways.length > 0">
 
-            <strong style="font-size: 12px; color: #FF7D12">ADDITIONAL NOTES</strong>
-            <p style="font-size: 16px;">{{slide.additionalNotes}}</p>
-            <br>
 
+            <strong style="font-size: 12px; color: #FF7D12" *ngIf="slide.highlights.length > 0">HIGHLIGHTS AND NOTES</strong>
+            <div class="previewItem"  *ngFor="let highlight of slide.highlights"
+                 fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%; min-height: 40px;"
+                 (mouseenter)="highlight.hover = true" (mouseleave)="highlight.hover = false">
+              <div style="padding-bottom: 15px;">
+                <i style="font-family: 'Playfair Display'; font-size: 16px;">{{highlight.content}}</i><br>
+                <span style="font-size: 16px;">{{highlight.notes}}</span>
+                <br>
+              </div>
+
+              <button mat-icon-button (click)="openHighlightDialog(slide, highlight)" style="outline: none;"
+                      *ngIf="highlight.hover">
+                <img src="./assets/icons/slider/edit.svg" style="margin:5px; width: 20px;">
+              </button>
+
+              <!-- Take the space of a button when no button is displayed -->
+              <div *ngIf="!highlight.hover" style="min-width: 45px;"></div>
+            </div>
+            <br *ngIf="slide.highlights.length > 0">
+
+            <strong style="font-size: 12px; color: #FF7D12" *ngIf="slide.additionalNotes">ADDITIONAL NOTES</strong>
+            <div class="previewItem" *ngIf="slide.additionalNotes"
+                 fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%; min-height: 40px;"
+                 (mouseenter)="slide.additionalNotesHover = true" (mouseleave)="slide.additionalNotesHover = false">
+              <p style="font-size: 16px;" *ngIf="slide.additionalNotes">{{slide.additionalNotes}}</p>
+
+              <button mat-icon-button (click)="openNoteDialog(slide)" style="outline: none;"
+                      *ngIf="slide.additionalNotesHover">
+                <img src="./assets/icons/slider/edit.svg" style="margin:5px; width: 20px;">
+              </button>
+
+              <!-- Take the space of a button when no button is displayed -->
+              <div *ngIf="!slide.additionalNotesHover" style="min-width: 45px;"></div>
+            </div>
+            <br *ngIf="slide.additionalNotes">
+
+          </div>
+          <br>
+          <br>
+
+          <p style="font-size: xx-large">Discussion Questions</p>
+          <div class="previewItem" *ngFor="let suggestedQuestion of content.suggestedQuestions"
+               fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%; min-height: 40px;"
+               (mouseenter)="suggestedQuestion.hover = true" (mouseleave)="suggestedQuestion.hover = false">
+            <span [ngClass]="{'unselected-item': !suggestedQuestion.selected}" class="question-item" style="font-size: 16px;">{{suggestedQuestion.question}}</span>
+
+            <!-- Restore an unselected question -->
+            <button mat-icon-button style="outline: none;" *ngIf="!suggestedQuestion.custom && !suggestedQuestion.selected"
+                    (click)="suggestedQuestion.selected = !suggestedQuestion.selected">
+              <img class="orange-icon" src="./assets/icons/slider/refresh.svg" style="margin:5px; width: 20px;">
+            </button>
+
+            <!-- Remove a suggested question -->
+            <button mat-icon-button style="outline: none;" *ngIf="!suggestedQuestion.custom && suggestedQuestion.selected && suggestedQuestion.hover"
+                    (click)="suggestedQuestion.selected = !suggestedQuestion.selected">
+              <img src="./assets/icons/slider/remove.svg" style="margin:5px; width: 20px;">
+            </button>
+
+            <!-- Edit / Delete a custom question -->
+            <button mat-icon-button style="outline: none;" *ngIf="suggestedQuestion.custom && suggestedQuestion.hover"
+                    (click)="openQuestionDialog(suggestedQuestion)">
+              <img src="./assets/icons/slider/edit.svg" style="margin:5px; width: 20px;">
+            </button>
+
+            <!-- Take the space of a button when no button is displayed -->
+            <div *ngIf="!suggestedQuestion.hover && suggestedQuestion.selected" style="min-width: 45px;"></div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <i style="font-family: 'Playfair Display'; font-size: 16px;">Add your own discussion question</i>
+            <button mat-icon-button (click)="openQuestionDialog()" style="outline: none;">
+              <img class="orange-icon" src="./assets/icons/slider/add.svg" style="margin:5px; width: 20px;">
+            </button>
+          </div>
+          <br>
+          <br>
+
+          <br *ngIf="content.meta.hasVideos">
+          <p style="font-size: xx-large" *ngIf="content.meta.hasVideos">Videos</p>
+          <div class="previewItem" *ngFor="let video of content.meta.videos"
+               fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%; min-height: 40px; padding-top: 20px;"
+               (mouseenter)="video.hover = true" (mouseleave)="video.hover = false">
+            <div fxLayout="row" fxLayoutAlign="start start" style="width: 100%; padding-bottom: 20px;">
+              <a [href]="sanitize(video.link)" target="_blank" style="padding-right: 20px;">
+                <img [ngClass]="{'grayscale-image': !video.selected}" src="https://img.youtube.com/vi/{{video.id}}/0.jpg" style="width: 400px">
+              </a>
+              <div fxLayout="column" fxLayoutAlign="start start">
+                <ngx-kjua
+                  [text]="video.link"
+                  [fill]="(video.selected? '#333' : '#BBB')"
+                  [size]="200"
+                  [image]="logo"
+                  [imageAsCode]="true"
+                ></ngx-kjua>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                  <img [ngClass]="{'grayscale-image': !video.selected}" src="./assets/icons/landing/videos.svg" style="margin:5px; width: 32px; height: 23px;">
+                  <a [ngClass]="{'unselected-item': !video.selected}" [href]="video.link">{{video.link}}</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Restore an unselected key takeaway -->
+            <button mat-icon-button style="outline: none;" *ngIf="!video.selected"
+                    (click)="video.selected = !video.selected">
+              <img class="orange-icon" src="./assets/icons/slider/refresh.svg" style="margin:5px; width: 20px;">
+            </button>
+
+            <!-- Remove a key takeaway -->
+            <button mat-icon-button style="outline: none;" *ngIf="video.selected && video.hover"
+                    (click)="video.selected = !video.selected">
+              <img src="./assets/icons/slider/remove.svg" style="margin:5px; width: 20px;">
+            </button>
+
+            <!-- Take the space of a button when no button is displayed -->
+            <div *ngIf="!video.hover && video.selected" style="min-width: 45px;"></div>
+          </div>
+
+
+          <br *ngIf="content.meta.hasActivities">
+          <p style="font-size: xx-large" *ngIf="content.meta.hasActivities">Activity</p>
+          <div class="previewItem" *ngIf="content.meta.hasActivities"
+               fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%; min-height: 40px;"
+               (mouseenter)="content.meta.activitiesHover = true" (mouseleave)="content.meta.activitiesHover = false">
+            <span [ngClass]="{'unselected-item': !content.meta.activitiesSelected}" style="font-size: 20px;">{{content.meta.activityDescription}}</span>
+
+            <!-- Restore an unselected key takeaway -->
+            <button mat-icon-button style="outline: none;" *ngIf="!content.meta.activitiesSelected"
+                    (click)="content.meta.activitiesSelected = !content.meta.activitiesSelected">
+              <img class="orange-icon" src="./assets/icons/slider/refresh.svg" style="margin:5px; width: 20px;">
+            </button>
+
+            <!-- Remove a key takeaway -->
+            <button mat-icon-button style="outline: none;" *ngIf="content.meta.activitiesSelected && content.meta.activitiesHover"
+                    (click)="content.meta.activitiesSelected = !content.meta.activitiesSelected">
+              <img src="./assets/icons/slider/remove.svg" style="margin:5px; width: 20px;">
+            </button>
+
+            <!-- Take the space of a button when no button is displayed -->
+            <div *ngIf="!content.meta.activitiesHover && content.meta.activitiesSelected" style="min-width: 45px;"></div>
           </div>
         </div>
       </mat-step>
@@ -186,23 +374,56 @@
           <span class="permission-text" style="width: 100%; padding-top: 8px; font-size: 11px;">Shared with permission from Taizé: Copyright ©️ Ateliers et Presses de Taizé, 71250 Taizé, France</span>
 
           <br>
-          <div *ngFor="let slide of content.slides; let slidesIndex = index;">
-            <p style="font-size: xx-large">{{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}</p>
-            <strong style="font-size: 12px; color: #FF7D12">KEY TAKEAWAYS</strong>
-            <p *ngFor="let keyTakeAway of slide.keyTakeAways" style="font-size: 20px;">{{keyTakeAway}}</p>
-            <br>
+          <p style="font-size: xx-large">Personal Connection</p>
+          <span style="font-size: 16px;">{{content.personalConnection}}</span>
+          <br>
 
-            <strong style="font-size: 12px; color: #FF7D12">HIGHLIGHTS AND NOTES</strong>
+          <div *ngFor="let slide of content.slides; let slidesIndex = index;">
+            <p style="font-size: xx-large"
+               *ngIf="slide.keyTakeAways.length > 0 || slide.highlights.length > 0 || slide.additionalNotes">
+              {{(slidesIndex + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}}
+            </p>
+
+            <strong style="font-size: 12px; color: #FF7D12" *ngIf="slide.keyTakeAways.length > 0">KEY TAKEAWAYS</strong>
+            <p *ngFor="let keyTakeAway of slide.keyTakeAways" style="font-size: 20px;">{{keyTakeAway.keyTakeAway}}</p>
+            <br *ngIf="slide.keyTakeAways.length > 0">
+
+
+            <strong style="font-size: 12px; color: #FF7D12" *ngIf="slide.highlights.length > 0">HIGHLIGHTS AND NOTES</strong>
             <div *ngFor="let highlight of slide.highlights" style="padding-bottom: 15px;">
               <i style="font-family: 'Playfair Display'; font-size: 16px;">{{highlight.content}}</i><br>
               <span style="font-size: 16px;">{{highlight.notes}}</span>
               <br>
             </div>
+            <br *ngIf="slide.highlights.length > 0">
 
-            <strong style="font-size: 12px; color: #FF7D12">ADDITIONAL NOTES</strong>
-            <p style="font-size: 16px;">{{slide.additionalNotes}}</p>
-            <br>
+            <strong style="font-size: 12px; color: #FF7D12" *ngIf="slide.additionalNotes">ADDITIONAL NOTES</strong>
+            <p style="font-size: 16px;" *ngIf="slide.additionalNotes">{{slide.additionalNotes}}</p>
+            <br *ngIf="slide.additionalNotes">
           </div>
+
+          <p style="font-size: xx-large">Discussion Questions</p>
+          <span style="font-size: 16px; padding: 7px 0" *ngFor="let suggestedQuestion of content.suggestedQuestions">{{suggestedQuestion.question}}</span>
+
+          <br *ngIf="content.meta.hasVideos">
+          <p style="font-size: xx-large" *ngIf="content.meta.hasVideos">Videos</p>
+          <div fxLayout="row" fxLayoutAlign="space-between start" style="width: 100%; padding-bottom: 20px;"
+               *ngFor="let video of content.meta.videos">
+            <img src="https://img.youtube.com/vi/{{video.id}}/0.jpg" style="width: 200px">
+            <div fxLayout="column" fxLayoutAlign="start start">
+              <ngx-kjua
+                [text]="video.link"
+                [size]="100"
+                [image]="logo"
+                [imageAsCode]="true"
+              ></ngx-kjua>
+              <div fxLayout="row" fxLayoutAlign="start center">
+                <img src="./assets/icons/landing/videos.svg" style="margin:5px; width: 32px; height: 23px;">
+                <p>{{video.link}}</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

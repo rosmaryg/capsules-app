@@ -5,15 +5,16 @@
       <mat-select [(value)]="sortBy" (selectionChange)="sortAscending = sortBy.sortAscending; sort()" disableOptionCentering="true">
         <mat-select-trigger>
           <div fxLayout="row" fxLayoutAlign="space-around center" style="padding-top: 6px;">
-            <span style="margin: 0" fxFlex="70">{{sortBy.label}}</span>
-            <mat-icon svgIcon="down_arrow" fxFlex="7"></mat-icon>
+            <img src="./assets/icons/landing/{{sortBy.icon}}.svg" style="margin:5px 25px; width: 25px; opacity: 0.65;">
+            <span style="margin: 0; letter-spacing: normal; font-size: 16px; font-weight: 300;" fxFlex="70">{{sortBy.label}}</span>
+            <img src="./assets/icons/landing/down_arrow.svg" style="margin:5px 25px; width: 17px;">
           </div>
         </mat-select-trigger>
 
-        <mat-option *ngFor="let option of sortByOptions" [value]="option">
-          <img src="./assets/icons/{{option.icon}}.svg" style="margin:5px 25px; width: 32px; opacity: 0.65;">
-          <span style="margin: auto">{{option.label}}</span>
-          <img src="./assets/icons/tick_orange.svg" style="margin:5px; width: 20px;" *ngIf="option === sortBy">
+        <mat-option class="sort-option" *ngFor="let option of sortByOptions" [value]="option">
+          <img src="./assets/icons/landing/{{option.icon}}.svg" style="margin:5px 25px; width: 25px; opacity: 0.65;">
+          <span style="margin: auto; font-size: 16px;">{{option.label}}</span>
+          <img src="./assets/icons/landing/tick.svg" style="margin:5px 25px; width: 17px;" *ngIf="option === sortBy">
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -21,11 +22,11 @@
   <div fxFlex="10" class="sorter-button">
     <button *ngIf="sortBy !== undefined && !sortAscending" matTooltip="Sort Ascending"
             (click)="sortAscending = !sortAscending; sort()" mat-icon-button>
-      <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; transform: scaleY(-1);">
+      <img src="./assets/icons/landing/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px; transform: scaleY(-1);">
     </button>
     <button *ngIf="sortBy !== undefined && sortAscending" matTooltip="Sort Descending"
             (click)="sortAscending = !sortAscending; sort()" mat-icon-button>
-      <img src="./assets/icons/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px;">
+      <img src="./assets/icons/landing/sort_arrow.svg" style="margin:5px; width: 17px; padding-bottom: 3px;">
     </button>
   </div>
 </mat-card>

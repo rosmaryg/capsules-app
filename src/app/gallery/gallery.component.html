@@ -3,25 +3,25 @@
   <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 45px 45px 20px">
     <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="!gridView">
       <button mat-icon-button (click)="gridView = true;" style="outline: none;">
-        <img src="./assets/icons/grid_inactive.svg" style="margin:5px; width: 32px; height: 23px;">
+        <img src="./assets/icons/landing/grid_inactive.svg" style="margin:5px; width: 32px; height: 23px;">
       </button>
       <button mat-icon-button style="outline: none;">
-        <img src="./assets/icons/list_active.svg" style="margin:5px; width: 32px; height: 23px;">
+        <img src="./assets/icons/landing/list_active.svg" style="margin:5px; width: 32px; height: 23px;">
       </button>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="gridView">
       <button mat-icon-button style="outline: none;">
-        <img src="./assets/icons/grid_active.svg" style="margin:5px; width: 32px; height: 23px;">
+        <img src="./assets/icons/landing/grid_active.svg" style="margin:5px; width: 32px; height: 23px;">
       </button>
       <button mat-icon-button (click)="gridView = false;" style="outline: none;">
-        <img src="./assets/icons/list_inactive.svg" style="margin:5px; width: 32px; height: 23px;">
+        <img src="./assets/icons/landing/list_inactive.svg" style="margin:5px; width: 32px; height: 23px;">
       </button>
     </div>
 
     <app-sorter [(sortBy)]="sortBy" [(sortAscending)]="sortAscending" [sortByOptions]="sortByOptions" [(capsules)]="capsules"></app-sorter>
 
   </div>
-  <div fxLayout="row" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center" style="padding: 30px 0;">
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 capsule-container" *ngFor="let capsule of capsules">
@@ -31,8 +31,16 @@
               <div class="mask flex-center" [ngClass]="{'rgba-orange-strong': capsule.hover, 'rgba-black-strong': !capsule.hover}"
                    (mouseenter)="capsule.hover = true;" (mouseleave)="capsule.hover = false;">
                 <div fxLayout="column" fxLayoutAlign="end center">
-                  <h4 class="white-text capsule-text">{{ capsule.title }}</h4>
+                  <span class="white-text capsule-text capsule-heading">{{ capsule.title }}</span>
                   <i class="white-text capsule-text capsule-subheading">{{ capsule.meta.author }}</i>
+                  <div style="padding-top: 5px;">
+                    <img class="white-icon" src="./assets/icons/landing/easy.svg" *ngIf="capsule.meta.difficulty === 'easy'"
+                         style="margin:5px; width: 34px; height: 14px;">
+                    <img class="white-icon" src="./assets/icons/landing/medium.svg" *ngIf="capsule.meta.difficulty === 'medium'"
+                         style="margin:5px; width: 34px; height: 14px;">
+                    <img class="white-icon" src="./assets/icons/landing/hard.svg" *ngIf="capsule.meta.difficulty === 'hard'"
+                         style="margin:5px; width: 34px; height: 14px;">
+                  </div>
                 </div>
               </div>
             </mat-card>

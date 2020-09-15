@@ -2,6 +2,7 @@ import {Component, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core
 import {GithubJsonService} from '../services/github-json/github-json.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Capsule} from '../shared/capsule/capsule.model';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-gallery',
@@ -36,7 +37,7 @@ export class GalleryComponent implements OnInit, OnChanges {
     },
     {
       label: 'Author',
-      icon: 'activity',
+      icon: 'author',
       sortAscending: true
     }
   ];

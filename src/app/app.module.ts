@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule, HammerModule} from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -6,6 +6,8 @@ import { MaterialModule } from './material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { MdePopoverModule } from '@material-extended/mde';
+import { NgxKjuaModule } from 'ngx-kjua';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,8 +24,9 @@ import { FileSaverModule } from 'ngx-filesaver';
 import { SorterComponent } from './sorter/sorter.component';
 import { ContentTextComponent } from './content-text/content-text.component';
 import { TextSelectDirective } from './text-select/text-select.directive';
-import { MdePopoverModule } from '@material-extended/mde';
 import { NotesModalComponent } from './notes-modal/notes-modal.component';
+import { FaqsComponent } from './faqs/faqs.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -38,10 +41,13 @@ import { NotesModalComponent } from './notes-modal/notes-modal.component';
     SorterComponent,
     ContentTextComponent,
     TextSelectDirective,
-    NotesModalComponent
+    NotesModalComponent,
+    FaqsComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
+    HammerModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -52,7 +58,8 @@ import { NotesModalComponent } from './notes-modal/notes-modal.component';
     ReactiveFormsModule,
     NgxFileDropModule,
     FileSaverModule,
-    MdePopoverModule
+    MdePopoverModule,
+    NgxKjuaModule
   ],
   providers: [
     RedirectGuard

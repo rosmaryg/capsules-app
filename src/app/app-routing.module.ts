@@ -7,17 +7,21 @@ import {EditorComponent} from './editor/editor.component';
 import {AdminComponent} from './admin/admin.component';
 import {RedirectGuard} from './guards/redirect/redirect.guard';
 import {CallbackComponent} from './callback/callback.component';
+import {AboutComponent} from './about/about.component';
+import {FaqsComponent} from './faqs/faqs.component';
 
 const routes: Routes = [
-  { path: '',               component: GalleryComponent },
-  { path: 'admin',          component: AdminComponent},
-  { path: 'content/:id',    component: ContentComponent },
-  { path: 'edit',           component: EditorComponent },
-  { path: 'edit/:id',       component: EditorComponent },
+  { path: '',                              component: GalleryComponent },
+  { path: 'admin',                         component: AdminComponent},
+  { path: 'content/:id',                   component: ContentComponent },
+  { path: 'edit',                          component: EditorComponent },
+  { path: 'edit/:id',                      component: EditorComponent },
+  { path: 'about',                         component: AboutComponent },
+  { path: 'faqs',                          component: FaqsComponent },
   { path: 'oauth2/github/callback',        component: CallbackComponent },
-  { path: 'oauth',          component: HomePageComponent,             canActivate: [RedirectGuard] },
-  { path: 'gallery',             redirectTo: '/' },
-  { path: '**',             redirectTo: '/' }
+  { path: 'oauth',                         component: HomePageComponent,             canActivate: [RedirectGuard] },
+  { path: 'gallery',                                                                 redirectTo: '/' },
+  { path: '**',                                                                      redirectTo: '/' }
 ];
 
 @NgModule({

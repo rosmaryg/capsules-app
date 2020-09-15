@@ -83,3 +83,24 @@
   font-size: 13px;
   text-align: right;
 }
+
+.previewItem:hover {
+  background:rgba(200, 200, 200 , 0.3);
+  padding-right: 5px;
+}
+
+.question-item {
+  padding: 8px 0;
+}
+
+.orange-icon {
+  filter: invert(44%) sepia(38%) saturate(6429%) hue-rotate(353deg) brightness(100%) contrast(90%);
+}
+
+.unselected-item {
+  opacity: 0.3
+}
+
+.grayscale-image {
+  filter: grayscale(100%) opacity(30%);
+}

@@ -29,7 +29,11 @@ export class SorterComponent implements OnInit {
       case 'Popularity':
         break;
       case 'Difficulty':
-        this.capsules.sort((a, b) => (a.title > b.title) ? (this.sortAscending ? 1 : -1 ) : (this.sortAscending ? -1 : 1 ));
+        this.capsules.sort((a, b) => {
+          const aDiff = a.meta.difficulty === 'easy'? 1 : a.meta.difficulty === 'medium' ? 2 : 3;
+          const bDiff = b.meta.difficulty === 'easy'? 1 : b.meta.difficulty === 'medium' ? 2 : 3;
+          return (aDiff > bDiff) ? (this.sortAscending ? 1 : -1 ) : (this.sortAscending ? -1 : 1 )
+        });
         break;
       case 'Recent':
         break;
