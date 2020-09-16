@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   deployUrl: '..',
-  repoOwner: undefined
+  repoOwner: 'rosmaryg'
 };
 
 /*
