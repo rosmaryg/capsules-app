@@ -27,7 +27,7 @@
         <div class="col-sm-3 capsule-container" *ngFor="let capsule of capsules">
           <div class="capsule-border">
             <mat-card class="view zoom capsule clickable" (click)="openDetails(capsule);">
-              <img src="{{ 'https://gitcdn.link/cdn/jy-america/capsules-content/master/images/' + capsule.id + '.jpg' }}" class="img-fluid" alt="">
+              <img src="{{ 'https://gitcdn.link/cdn/' + repoOwner + '/capsules-content/master/images/' + capsule.id + '.jpg' }}" class="img-fluid" alt="">
               <div class="mask flex-center" [ngClass]="{'rgba-orange-strong': capsule.hover, 'rgba-black-strong': !capsule.hover}"
                    (mouseenter)="capsule.hover = true;" (mouseleave)="capsule.hover = false;">
                 <div fxLayout="column" fxLayoutAlign="end center">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {GithubJsonService} from '../services/github-json/github-json.service';
 import {GithubService} from '../services/github/github.service';
 import {AuthService} from '../services/auth/auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-admin',
@@ -12,6 +13,7 @@ export class AdminComponent implements OnInit {
   capsules: Array<any>;
   userName: string;
   inProgressBranches: Array<string>;
+  repoOwner = environment.repoOwner;
 
   constructor(
     private authService: AuthService,

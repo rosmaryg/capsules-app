@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 export class GithubService {
   url = 'https://api.github.com';
   contentRepoName = 'capsules-content';
-  contentRepoOwner = 'jy-america';
+  contentRepoOwner = environment.repoOwner;
   httpOptions: object;
 
   constructor(private http: HttpClient) {}

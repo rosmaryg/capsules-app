@@ -4,7 +4,7 @@
     <a [routerLink]="['/edit']" class="list-group-item list-group-item-action flex-column align-items-start" style=" padding: 10px">
       <div class="d-flex w-100 justify-content-between" style="border: thin dashed #AFAFAF; padding: 10px">
         <div class="d-flex justify-content-between">
-          <img style="width: 150px" src="{{ 'https://gitcdn.link/cdn/jy-america/capsules-content/master/images/default.jpg' }}">
+          <img style="width: 150px" src="{{ 'https://gitcdn.link/cdn/' + repoOwner + '/capsules-content/master/images/default.jpg' }}">
           <div fxLayout="column" fxLayoutAlign="center center" style="padding: 15px;">
             <h4 class="mb-1">Create a Catholic Capsule</h4>
           </div>
@@ -13,7 +13,7 @@
     </a><a *ngFor="let capsule of capsules" [routerLink]="['/edit', capsule.id]" class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between">
         <div class="d-flex justify-content-between">
-          <img style="width: 150px" src="{{ 'https://gitcdn.link/cdn/jy-america/capsules-content/master/images/' + capsule.id + '.jpg' }}">
+          <img style="width: 150px" src="{{ 'https://gitcdn.link/cdn/' + repoOwner + '/capsules-content/master/images/' + capsule.id + '.jpg' }}">
           <div fxLayout="column" style="padding: 15px;">
             <h5 class="mb-1">{{capsule.title}}</h5>
             <small>{{ capsule.meta.author }}</small>

@@ -3,6 +3,7 @@ import {GithubJsonService} from '../services/github-json/github-json.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Capsule} from '../shared/capsule/capsule.model';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-gallery',
@@ -10,6 +11,7 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
   styleUrls: ['./gallery.component.scss']
 })
 export class GalleryComponent implements OnInit, OnChanges {
+  repoOwner = environment.repoOwner;
   gridView = true;
   capsules: Array<Capsule>;
   sortBy = {
@@ -103,6 +105,7 @@ export class GalleryComponent implements OnInit, OnChanges {
   styleUrls: ['./gallery.component.scss']
 })
 export class CapsuleDetailsDialogComponent {
+  repoOwner = environment.repoOwner;
 
   constructor(public dialogRef: MatDialogRef<CapsuleDetailsDialogComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any) {

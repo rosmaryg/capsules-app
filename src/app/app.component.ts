@@ -15,7 +15,7 @@ export class AppComponent implements OnInit{
   userName = '';
   contributor = false;
   contentRepoPresent = true;
-  contentRepoSource = true; // verifying that the source of the content repo is jy-america
+  contentRepoSource = true; // verifying that the source of the content repo is jy-america (or repoOwner)
 
   githubOauthUrl = 'https://github.com/login/oauth/authorize?client_id=d0c8d82ad66e26b4d64d&scope=repo,user:email';
 
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit{
       this.githubService.getName().subscribe((data: any) => {
         this.userName = data.login;
         this.githubService.getUserRepos(this.userName).subscribe((repo: any) => {
-          if (repo.fork && repo.parent.full_name === 'jy-america/capsules-content') {
+          if (repo.fork && repo.parent.full_name === environment.repoOwner + '/capsules-content') {
             this.contributor = true;
           } else {
             this.contentRepoSource = false;

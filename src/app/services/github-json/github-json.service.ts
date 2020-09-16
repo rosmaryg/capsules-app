@@ -7,10 +7,9 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class GithubJsonService {
-  repoOwner = environment.repoOwner;
-  githubBaseUrl = 'https://gitcdn.link/cdn/jy-america/capsules-content/master/';
-  githubCommentsBaseUrl = 'https://gitcdn.link/cdn/jy-america/capsules-content/master/comments/';
-  githubContentBaseUrl = 'https://gitcdn.link/cdn/jy-america/capsules-content/master/content/';
+  githubBaseUrl = 'https://gitcdn.link/cdn/' + environment.repoOwner + '/capsules-content/master/';
+  githubCommentsBaseUrl = 'https://gitcdn.link/cdn/' + environment.repoOwner + '/capsules-content/master/comments/';
+  githubContentBaseUrl = 'https://gitcdn.link/cdn/' + environment.repoOwner + '/capsules-content/master/content/';
   jsonExt = '.json';
 
   constructor(private http: HttpClient) { }
