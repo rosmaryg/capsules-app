@@ -1,0 +1,60 @@
+<div>
+  <div fxLayout="column" fxLayoutAlign="space-between center">
+    <div style="width: 100%" fxLayout="row" fxLayoutAlign="end center">
+      <button mat-icon-button style="outline: none;" (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="capsule-border details">
+      <mat-card class="view capsule">
+        <img src="{{ 'https://gitcdn.link/cdn/' + repoOwner + '/capsules-content/master/images/' + data.id + '.jpg' }}" class="img-fluid" alt="">
+        <div class="mask flex-center">
+        </div>
+      </mat-card>
+    </div>
+    <br>
+    <div fxLayout="column" fxLayoutAlign="space-between center" style="overflow: auto;">
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <img class="gray-icon" src="./assets/icons/landing/slides.svg" style="margin:5px; width: 24px; height: 18px">
+        <p class="data-text" style="margin: 0; font-size: 18px;">07</p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img class="gray-icon" src="./assets/icons/landing/most_popular.svg" style="margin:5px; width: 28px; height: 16px">
+        <p class="data-text" style="margin: 0; font-size: 18px;">134</p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img class="gray-icon" src="./assets/icons/landing/easy.svg" *ngIf="data.meta.difficulty === 'easy'" style="margin:5px; width: 35px; height: 14px">
+        <img class="gray-icon" src="./assets/icons/landing/medium.svg" *ngIf="data.meta.difficulty === 'medium'" style="margin:5px; width: 35px; height: 14px">
+        <img class="gray-icon" src="./assets/icons/landing/hard.svg" *ngIf="data.meta.difficulty === 'hard'" style="margin:5px; width: 35px; height: 14px">
+      </div>
+      <br>
+      <h3 class="data-text capsule-details-heading" style="padding-top: 20px; margin: 0; text-align: center;">{{ data.title }}</h3>
+      <i class="data-text capsule-details-subheading">{{ data.meta.author }}</i>
+      <br *ngIf="data.description">
+      <p class="data-text" *ngIf="data.description" style="font-size: 21px; margin: 10px 0px; text-align: center; word-break: break-word; width: 94%">{{ data.description }}</p>
+      <br>
+
+      <span class="data-text" *ngIf="data.meta.tags && data.meta.tags.length > 0" style="font-size: 12px; padding-bottom: 10px;">TAGS:</span>
+      <div *ngIf="data.meta.tags && data.meta.tags.length > 0" style="width: 60%">
+        <mat-chip-list aria-label="capsule tags">
+          <mat-chip class="topic-tags" *ngFor="let tag of data.meta.tags" style="border: solid thin #d1d1d1; background-color: white">{{ tag }}</mat-chip>
+        </mat-chip-list>
+      </div>
+
+      <br *ngIf="data.meta.hasActivities || data.meta.hasVideos">
+      <span class="data-text" *ngIf="data.meta.hasActivities || data.meta.hasVideos" style="font-size: 12px; padding: 10px 0;">EXTRAS:</span>
+      <div *ngIf="data.meta.hasActivities || data.meta.hasVideos" fxLayout="row" fxLayoutAlign="center center">
+        <img class="gray-icon" src="./assets/icons/landing/notes.svg" style="margin:5px; width: 18px; height: 19px">
+        <p class="data-text" style="margin: 0; font-size: 18px;">00</p>
+        &nbsp;&nbsp;&nbsp;
+        <img class="gray-icon" src="./assets/icons/landing/activity.svg" style="margin:5px; width: 20px; height: 21px">
+        <p class="data-text" style="margin: 0; font-size: 18px;">00</p>
+        &nbsp;&nbsp;&nbsp;
+        <img class="gray-icon" src="./assets/icons/landing/videos.svg" style="margin:5px; width: 22px; height: 16px">
+        <p class="data-text" style="margin: 0; font-size: 18px;">00</p>
+      </div>
+      <br>
+      <button mat-raised-button style="outline: none; border-radius: 100px; width: 190px; height: 47px; margin-top: 30px;" color="primary" [routerLink]="['/content', data.id]" (click)="close()">
+        <p class="white-text" style="margin: 0; padding: 0 25px; font-size: 18px;">Start Capsule</p>
+      </button>
+    </div>
+  </div>
+</div>

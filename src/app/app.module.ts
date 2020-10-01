@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ContentComponent } from './content/content.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CapsuleDetailsDialogComponent, GalleryComponent } from './gallery/gallery.component';
+import {CapsuleDetailsBottomSheetComponent, CapsuleDetailsDialogComponent, GalleryComponent} from './gallery/gallery.component';
 import { EditorComponent } from './editor/editor.component';
 import { AdminComponent } from './admin/admin.component';
 import { RedirectGuard } from './guards/redirect/redirect.guard';
@@ -38,6 +38,7 @@ import { AboutComponent } from './about/about.component';
     AdminComponent,
     CallbackComponent,
     CapsuleDetailsDialogComponent,
+    CapsuleDetailsBottomSheetComponent,
     SorterComponent,
     ContentTextComponent,
     TextSelectDirective,
@@ -66,6 +67,7 @@ import { AboutComponent } from './about/about.component';
   ],
   entryComponents: [
     CapsuleDetailsDialogComponent,
+    CapsuleDetailsBottomSheetComponent,
     NotesModalComponent
   ],
   bootstrap: [AppComponent]

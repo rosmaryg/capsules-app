@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {Capsule} from '../shared/capsule/capsule.model';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import { environment } from '../../environments/environment';
+import {MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-gallery',
@@ -47,7 +48,10 @@ export class GalleryComponent implements OnInit, OnChanges {
   hover: boolean;
 
   constructor(private githubJsonService: GithubJsonService,
-              public dialog: MatDialog) { }
+              private _bottomSheet: MatBottomSheet,
+              public dialog: MatDialog,
+              public breakpointObserver: BreakpointObserver
+  ) { }
 
   ngOnInit() {
     this.githubJsonService.getDirectory()
@@ -68,8 +72,23 @@ export class GalleryComponent implements OnInit, OnChanges {
 
 
   openDetails(capsule) {
+
+    if (this.breakpointObserver.isMatched(Breakpoints.XSmall) || this.breakpointObserver.isMatched(Breakpoints.Small)) {
+      this.openDetailsBottomSheet(capsule);
+    } else {
+      this.openDetailsDialog(capsule);
+    }
+  }
+
+  openDetailsDialog(capsule) {
     const dialogRef = this.dialog.open(CapsuleDetailsDialogComponent, {
       panelClass: 'full-screen-dialog',
+      data: capsule
+    });
+  }
+
+  openDetailsBottomSheet(capsule) {
+    this._bottomSheet.open(CapsuleDetailsBottomSheetComponent, {
       data: capsule
     });
   }
@@ -100,7 +119,7 @@ export class GalleryComponent implements OnInit, OnChanges {
 }
 
 @Component({
-  selector: 'app-capsule-details',
+  selector: 'app-capsule-details-dialog',
   templateUrl: './capsule-details-dialog.html',
   styleUrls: ['./gallery.component.scss']
 })
@@ -114,6 +133,22 @@ export class CapsuleDetailsDialogComponent {
 
   close(): void {
     this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'app-capsule-details-bottom-sheet',
+  templateUrl: 'capsule-details-bottom-sheet.html',
+  styleUrls: ['./gallery.component.scss']
+})
+export class CapsuleDetailsBottomSheetComponent {
+  repoOwner = environment.repoOwner;
+
+  constructor(private _bottomSheetRef: MatBottomSheetRef<CapsuleDetailsBottomSheetComponent>,
+              @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {}
+
+  close(): void {
+    this._bottomSheetRef.dismiss();
   }
 }
 
